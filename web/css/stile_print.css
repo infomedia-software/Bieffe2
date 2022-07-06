@@ -1,0 +1,52 @@
+*{
+     font-family: Arial;
+     font-size: 13px;
+     line-height: 15px;
+ }
+ .a4_verticale{
+     height: 297mm;
+     width: 210mm;
+     page-break-after: always;
+ }
+
+ .tabella_stampa{
+     width: 100%;
+     border-collapse: collapse;
+ }
+
+
+ .tabella_stampa th{
+     min-height: 30px;
+     padding: 10px;
+     background-color:#eee;
+     font-weight: bold;
+ }
+ .tabella_stampa td{
+     min-height: 30px;
+     padding: 10px;     
+ }
+
+
+ .height_1{
+     height: 1cm;
+ }
+ 
+.ball{
+    height: 15px;
+    line-height: 15px;    
+    width: 15px;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    float: left;
+    margin: 2.5px;
+}
+
+.ball img{
+    width: 13px;
+    margin: 1px;    
+}
+
+.no_print{
+    display: none;
+}
