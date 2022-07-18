@@ -39,7 +39,7 @@
     int differenza_date=Utility.differenzaTimestamp(data+" 00:00:00",ultima_data_planning+" 00:00:00");
     
     if(differenza_date>0){
-        response.sendRedirect(Utility.url+"/errore.jsp?messaggio=Impossibile procedere alla creazione del planning per la data specificata. <br>Data selezionata superiore a 30 giorni rispetto all'ultima data del planning.");
+        response.sendRedirect(Utility.url+"/errore.jsp?messaggio=Impossibile procedere alla creazione del planning per la data specificata. <br>Data selezionata superiore all'ultima data del planning.");
         return;
     }
     
