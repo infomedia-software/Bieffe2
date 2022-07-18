@@ -166,7 +166,8 @@ public class GestioneSincronizzazione {
             
                 
                 // Approvazione TIPO 1
-                String query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,dbo.Ore.centro,dbo.Commesse.noteout FROM dbo.Commesse "
+                String query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,dbo.Ore.centro,"
+                        + "dbo.Commesse.noteout,dbo.Commesse.qta FROM dbo.Commesse "
                     + "LEFT OUTER JOIN dbo.Ore ON dbo.Commesse.codice=dbo.Ore.commessa "
                     + "WHERE dbo.Ore.centro='LAV.APPROV.' AND cen='1010' AND Data3 is NULL ORDER BY dataComm asc";           
                 //System.out.println(query);
@@ -184,6 +185,7 @@ public class GestioneSincronizzazione {
                         c.setNote(rs.getString("descr"));
                         c.setData(rs.getString("dataComm"));
                         c.setDettagli(rs.getString("noteout"));
+                        c.setQta(rs.getDouble("qta"));
                         Soggetto cliente=new Soggetto();
                             cliente.setId(rs.getString("codcli"));
                             c.setSoggetto(cliente);                    
@@ -196,7 +198,7 @@ public class GestioneSincronizzazione {
 
 
                 // Approvazione TIPO 2
-                query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,CodiceFase,dbo.Commesse.noteout "
+                query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,CodiceFase,dbo.Commesse.noteout,dbo.Commesse.qta "
                         + "FROM dbo.Commesse "
                         + "LEFT OUTER JOIN dbo.Altro ON dbo.Commesse.codice=dbo.Altro.rifCommessa "
                         + "WHERE dbo.Altro.CodiceFase='00143' AND Data3 IS NULL ORDER BY dataComm DESC";           
@@ -213,6 +215,7 @@ public class GestioneSincronizzazione {
                                 c.setNote(rs.getString("descr"));
                                 c.setData(rs.getString("dataComm"));                                                    
                                 c.setDettagli(rs.getString("noteout"));
+                                c.setQta(rs.getDouble("qta"));
                                 Soggetto cliente=new Soggetto();
                                     cliente.setId(rs.getString("codcli"));
                                     c.setSoggetto(cliente);                    
@@ -243,6 +246,7 @@ public class GestioneSincronizzazione {
                         c.setNote(rs.getString("descr"));
                         c.setData(rs.getString("dataComm"));                    
                         c.setDettagli(rs.getString("noteout"));
+                        c.setQta(rs.getDouble("qta"));
                         Soggetto cliente=new Soggetto();
                             cliente.setId(rs.getString("codcli"));
                             c.setSoggetto(cliente);                    
@@ -330,7 +334,7 @@ public class GestioneSincronizzazione {
                     String id_commessa_creata=id_commessa;
                     if(id_commessa.equals("")){
                         String colore=Utility.randomColor();
-                        String queryinsertcommesse="INSERT IGNORE INTO commesse(numero,descrizione,note,soggetto,colore,data,qta_attivita,ore_attivita,dettagli,stato) VALUES("+
+                        String queryinsertcommesse="INSERT IGNORE INTO commesse(numero,descrizione,note,soggetto,colore,data,qta_attivita,ore_attivita,dettagli,qta,stato) VALUES("+
                                 Utility.isNull(commessa.getNumero())+","+
                                 Utility.isNull(commessa.getDescrizione())+","+
                                 Utility.isNull(commessa.getNote())+","+
@@ -340,6 +344,7 @@ public class GestioneSincronizzazione {
                                 Utility.isNull(qta_attivita)+","+
                                 Utility.isNull(ore_attivita)+","+
                                 Utility.isNull(commessa.getDettagli())+","+
+                                commessa.getQta()+","+
                                 Utility.isNull("1")
                             +")";            
                         id_commessa_creata=Utility.getIstanza().query_insert(queryinsertcommesse);

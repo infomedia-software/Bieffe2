@@ -16,7 +16,7 @@
 <%    
     String id_commessa=Utility.eliminaNull(request.getParameter("id_commessa"));
     
-    if(Utility.url.contains("localhost")){
+    if(!Utility.url.contains("localhost")){
         // Cancello tutte le attività non in programmazione o da programmare o non sono collegate ad ordine fornitore
         String query="DELETE FROM attivita WHERE situazione!='in programmazione' AND situazione!='da programmare' AND id_ordine_fornitore='' ";    
         if(!id_commessa.equals("")){

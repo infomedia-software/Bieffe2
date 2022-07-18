@@ -55,6 +55,16 @@
 
         
     temp=new Th();
+        temp.setId("qta");
+        temp.setCampo_db("commesse.qta");
+        temp.setTesto("qta");
+        temp.setTipo(Th.tipo_NUMBER);
+        temp.setOrdinamento(1);
+        temp.setValore_iniziale(Utility.eliminaNull(request.getParameter(temp.getCampo_db())));
+        lista_th.add(temp);
+
+        
+    temp=new Th();
         temp.setId("note");
         temp.setCampo_db("commesse.note");
         temp.setTesto("Note");
@@ -188,14 +198,14 @@
                                 <input type="text" id="<%=th.getId()%>" onchange="ricerca()" value="<%=th.getValore_iniziale()%>">
                             <%}%>
                             <%if(th.getTipo().equals(Th.tipo_NUMBER)){%>
-                                <select id="<%=th.getId()%>_condizione" onchange="ricerca()" style="width: 50px;">
+                                <select id="<%=th.getId()%>_condizione" onchange="ricerca()" style="width: 50px;min-width: 50px;max-width: 50px;float: left;">
                                     <option value=''></option>
                                     <option value="<"><</option>
                                     <option value=">">></option>
                                     <option value="<="><=</option>
                                     <option value=">=">>=</option>
                                 </select>
-                                <input type="text" id="<%=th.getId()%>" onchange="ricerca()">
+                                <input type="text" id="<%=th.getId()%>" onchange="ricerca()" style="width: 100px;min-width: 100px;max-width: 100px;float: left;">
                             <%}%>
                             <%if(th.getTipo().equals(Th.tipo_DATE)){%>
                                 <input type="date" id="<%=th.getId()%>_dal" onchange="ricerca()">
@@ -242,6 +252,7 @@
                             %>
                         </td>
                         <td><%=c.getDescrizione()%></td>                        
+                        <td><%=Utility.elimina_zero(c.getQta())%></td>                        
                         <td><%=c.getNote()%></td>                        
                         <td>
                             <%if(c.getSituazione().equals("programmata")){%>

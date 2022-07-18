@@ -215,7 +215,7 @@
                                                 </button>
                                             <%}
                                             seq_prec=a.getSeq();
-                                            commessa=a.getCommessa().getId();
+                                            commessa=a.getCommessa().getNumero();
                                             %>
                                         </td>
                                         <td>
