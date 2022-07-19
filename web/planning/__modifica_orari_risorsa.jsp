@@ -28,9 +28,8 @@
     if(applica_sempre.equals("false"))
         planning_ultima_data=Utility.dataFutura(data, 1);
     
-   
-    
     while(!data.equals(planning_ultima_data)){
+        
         
         String situazione=Utility.getIstanza().getValoreByCampo("calendario", "situazione", "data="+Utility.isNull(data));
         
@@ -91,7 +90,7 @@
             }   
         }
         data=Utility.dataFutura(data, 1);                
-        
+     
     }
     
     GestionePlanning.getIstanza().riprogrammaRisorse(risorsa,start_riprogramma_risorse);

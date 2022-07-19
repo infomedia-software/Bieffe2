@@ -110,12 +110,13 @@
         var risorsaselezionata="<%=risorsa%>";
         var data="<%=data%>";
         var applica_sempre=$("#applica_sempre").is(":checked");                        
+        var planning_ultima_data=$("#planning_ultima_data").val();
         if(confirm("Procedere alla disabilitazione della risorsa?")){
             mostraloader("Operazione in corso...");
             $.ajax({
                 type: "POST",
                 url: "<%=Utility.url%>/planning/__modifica_orari_risorsa.jsp",
-                data: "risorsa="+risorsaselezionata+"&data="+data+"&campodamodificare=valore&newvalore=-1&applica_sempre="+applica_sempre,
+                data: "planning_ultima_data="+planning_ultima_data+"&risorsa="+risorsaselezionata+"&data="+data+"&campodamodificare=valore&newvalore=-1&applica_sempre="+applica_sempre,
                 dataType: "html",
                 success: function(msg){
                     aggiornaplanning();
