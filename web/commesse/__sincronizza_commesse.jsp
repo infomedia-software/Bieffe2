@@ -25,6 +25,7 @@
             String numero_commessa=Utility.getIstanza().getValoreByCampo("commesse", "numero", "id="+id_commessa);
             GestioneSincronizzazione.getIstanza().sincronizza_commesse(numero_commessa);
         }else{        
+            Utility.getIstanza().query(query);
             GestioneSincronizzazione.getIstanza().sincronizza_commesse("");
         }        
     }
