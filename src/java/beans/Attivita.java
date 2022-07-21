@@ -107,7 +107,10 @@ public class Attivita {
     }
     
     public boolean is_in_programmazione(){
-        return situazione.equals(Attivita.INPROGRAMMAZIONE);
+        boolean toReturn=false;
+        if(situazione.equals(Attivita.INPROGRAMMAZIONE) && !inizio.startsWith("3001-01-01") && !fine.startsWith("3001-01-01") && !risorsa.getId().equals(""))
+            toReturn=true;
+        return toReturn;
     }
     
     public boolean is_da_programmare(){

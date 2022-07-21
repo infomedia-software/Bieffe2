@@ -202,7 +202,11 @@
         <div class="valore">
             <input type="text" readonly="true" tabindex="-1" value="<%=attivita.getCommessa().getNumero()%> <%=attivita.getCommessa().getDescrizione()%>">
         </div>
-
+        
+        <div class="etichetta"></div>
+        <div class="valore">
+            <input type="text" readonly="true" tabindex="-1" value="<%=attivita.getCommessa().getNote()%>">
+        </div>
         
         <div class="etichetta">Descrizione</div>
         <div class="valore">
@@ -261,7 +265,9 @@
                         <select id="precedente_attivita" name="precedente_attivita" onchange="seleziona_precedente_attivita()" style='width: calc(85% - 10px)'>
                             <option value="">Seleziona l'attivita</option>
                             <%for(Attivita prec:precedenti){%>
-                                <option value="<%=prec.getId()%>" <%if(precedente_attivita.equals(prec.getId())){%>selected="true"<%}%>><%=prec.getSeq()%> <%=prec.getFase_input().getCodice()%> <%=prec.getDescrizione()%> su <%=prec.getRisorsa().stampa()%> durata: <%=prec.getDurata()%>h - ID: <%=prec.getId()%></option>
+                                <option value="<%=prec.getId()%>" <%if(precedente_attivita.equals(prec.getId())){%>selected="true"<%}%>>
+                                    <%=prec.getSeq()%> <%=prec.getFase_input().getCodice()%> <%=prec.getDescrizione()%> su <%=prec.getRisorsa().stampa()%> durata: <%=Utility.elimina_zero(prec.getDurata())%>h
+                                </option>
                             <%}%>
                         </select>
                     </div>        
@@ -323,11 +329,16 @@
                 <%}%>
 
                 <div class="clear"></div>
-    
+
+            <div class="etichetta">Q.tà</div>
+            <div class="valore">
+                <input type="number" name="qta_ordine_fornitore">
+            </div>
             
-            <input type="hidden" name="qta_ordine_fornitore">
-            <input type="hidden" name="prezzo_ordine_fornitore">
-            
+            <div class="etichetta">Prezzo Unitario</div>
+            <div class="valore">
+                <input type="number" name="prezzo_ordine_fornitore">
+            </div>
                                           
                 
             <div class="etichetta">Note</div>

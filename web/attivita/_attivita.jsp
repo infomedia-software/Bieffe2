@@ -155,11 +155,9 @@
     <div class="box">                         
         
         <a href='<%=Utility.url%>/commesse/commessa.jsp?id=<%=attivita.getCommessa().getId()%>' class="pulsante commessa" ><img src="<%=Utility.url%>/images/document.png">Commessa</a>
-        
-        <%if(!attivita.is_in_programmazione()){%>        
-            <button class="pulsante da_programmare" onclick="da_programmare('<%=id%>')"><img src="<%=Utility.url%>/images/planning.png">Da Programmare</button>
-        <%}%>
+                
         <%if(attivita.is_in_programmazione() && attivita.getStato().equals("1")){%>
+            <button class="pulsante da_programmare" onclick="da_programmare('<%=id%>')"><img src="<%=Utility.url%>/images/planning.png"> Imposta da Da Programmare</button>
             <a href='<%=Utility.url%>/planning/planning.jsp?data=<%=attivita.getInizioData()%>' class="pulsante planning" ><img src="<%=Utility.url%>/images/planning.png">Planning</a>
         <%}%>
     </div>

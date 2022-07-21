@@ -10,15 +10,16 @@
     String new_data="";
     String data_min_calendario=GestioneOpzioni.getIstanza().getOpzione("DATA_MIN_CALENDARIO");
     
+    System.out.println(" XXX "+Utility.url+" XXX => __cambia_data.jsp => data=>"+data+" - operazione=>"+operazione+"<");
+    
     String data_corrente=Utility.dataOdiernaFormatoDB();
     String data_max=Utility.dataFutura(data_corrente, 60);
-    
     if(Utility.viene_prima(data_max, data)){
         new_data="ERRORE:Il planning non può essere creato per la data selezionata poichè è superiore a 60 gg da oggi";
     }else{
-        
+
         if(Utility.viene_prima_date(data, data_min_calendario)){
-            new_data="ERRORE:Il planning non esiste per la data selezionata poichè è antecedente alla prima data del planning.";
+            new_data="ERRORE:Il planning non esiste per la data selezionata.";
         }else{
             if(operazione.equals("")){
                 boolean data_creata=GestioneCalendario.getIstanza().is_data_creata(data);                

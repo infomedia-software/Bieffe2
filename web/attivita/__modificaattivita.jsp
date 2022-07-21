@@ -18,6 +18,13 @@
     
     String query="";
     
+    // Modifica del task associato ad un'attività -> modifica anche della duratatasks
+    if(campodamodificare.equals("task") && !newvalore.equals("")){
+        GestioneSincronizzazione.getIstanza().associa_attivita_task(idattivita, newvalore);        
+        Utility.getIstanza().query("UPDATE attivita SET task='' "
+                + "WHERE task="+Utility.isNull(newvalore)+" AND id!="+idattivita); // Cancello il task se già associato a qualche altra attività
+        return;
+    }
     
      // Modifica del ritardo    
     if(campodamodificare.equals("ritardo")){
@@ -96,8 +103,9 @@
         
         Utility.getIstanza().query("UPDATE planning SET valore='1' WHERE valore="+idattivita+"");       
         Utility.getIstanza().query("UPDATE attivita SET "
-                    + "inizio='"+Utility.dadefinire+"',"
+                    + "inizio='"+Utility.dadefinire+"',"                    
                     + "fine='"+Utility.dadefinire+"',"
+                    + "risorsa='',"
                     + "situazione="+Utility.isNull(Attivita.DAPROGRAMMARE)+" "
                 + "WHERE "
                     + "id="+idattivita);       

@@ -1,3 +1,4 @@
+<%@page import="gestioneDB.GestioneCalendario"%>
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="gestioneDB.DBConnection"%>
@@ -14,6 +15,7 @@
     Attivita attivita=GestionePlanning.getIstanza().ricercaAttivita(" attivita.id="+id_attivita).get(0);
     
     String prima_data_planning=Utility.getIstanza().querySelect("SELECT DATE(min(inizio)) as prima_data_planning FROM planning WHERE 1 ORDER BY inizio DESC LIMIT 0,1", "prima_data_planning");
+    
     
     ArrayList<String> orari=Utility.getIstanza().lista_orari();
 
@@ -33,11 +35,15 @@
         inizio_minimo=GestionePlanning.getIstanza().inizio_min(id_attivita);
     }
     
+    String data_ora_corrente=Utility.dataOraCorrente_String();
+    
     if(inizio_minimo.equals(""))
-        inizio_minimo=Utility.dataOraCorrente_String();    
-    if(Utility.viene_prima(inizio_minimo, Utility.dataOraCorrente_String())){                    
-        inizio_minimo=Utility.getIstanza().getValoreByCampo("planning","inizio"," inizio>=NOW() AND valore!='-1' AND risorsa="+Utility.isNull(id_risorsa) +" ORDER BY inizio ASC LIMIT 0,1 ");
+        inizio_minimo=data_ora_corrente;    
+    
+    if(Utility.viene_prima(inizio_minimo, data_ora_corrente) && !inizio_minimo.equals(data_ora_corrente)){                    
+        inizio_minimo=Utility.getIstanza().getValoreByCampo("planning","inizio"," inizio>=NOW() AND valore!='-1' AND risorsa="+Utility.isNull(id_risorsa) +" ORDER BY inizio ASC LIMIT 0,1 ");    
     }                        
+    
     inizio_minimo_data=Utility.substring_data(inizio_minimo);        
     inizio_minimo_orario=Utility.substring_orario(inizio_minimo); 
   
@@ -186,9 +192,10 @@
          <%}%>
         
               
+         
         
     </div>
-
+    
     <div class='box'>
 
         <table class="tabella">            
@@ -212,6 +219,16 @@
                     <td colspan="2">Nessuna attività precedente</td>
                 </tr>
             <%}%>            
+            
+            <%
+            
+                ArrayList<Attivita> lista_attivita_su_risorsa=GestionePlanning.getIstanza().ricercaAttivita(" "
+                    + "attivita.id!="+id_attivita+" AND attivita.situazione="+Utility.isNull(Attivita.INPROGRAMMAZIONE)+" AND "
+                    + "((attivita.inizio<="+Utility.isNull(inizio_minimo)+" AND attivita.fine>="+Utility.isNull(inizio_minimo)+" ) OR attivita.inizio>="+Utility.isNull(inizio_minimo)+" ) AND "
+                    + "attivita.risorsa="+Utility.isNull(id_risorsa)+" AND attivita.stato='1' ORDER BY attivita.inizio ASC ");
+                if(lista_attivita_su_risorsa.size()>0){
+            %>
+            
             <tr>
                 <td style="vertical-align: top">
                     <input type="radio" id="data_ora_4" name="opzione" value="data_ora_4" onclick="seleziona_data_orario('4')">
@@ -229,11 +246,7 @@
                                 <th>Data Consegna</th>
                                 <th></th>
                             </tr>
-                            <%
-                                ArrayList<Attivita> lista_attivita_su_risorsa=GestionePlanning.getIstanza().ricercaAttivita(" "
-                                        + "attivita.id!="+id_attivita+" AND attivita.situazione="+Utility.isNull(Attivita.INPROGRAMMAZIONE)+" AND "
-                                        + "((attivita.inizio<="+Utility.isNull(inizio_minimo)+" AND attivita.fine>="+Utility.isNull(inizio_minimo)+" ) OR attivita.inizio>="+Utility.isNull(inizio_minimo)+" ) AND "
-                                        + "attivita.risorsa="+Utility.isNull(id_risorsa)+" AND attivita.stato='1' ORDER BY attivita.inizio ASC ");
+                            <%                                
                                 for(Attivita attivita_su_risorsa:lista_attivita_su_risorsa){%>
                                     <tr>
                                         <td>
@@ -266,23 +279,34 @@
                         </div>
                 </td>
             </tr>
+            <%}%>
             <%
-                String data_orario_5=Utility.getIstanza().querySelect("SELECT inizio FROM planning WHERE risorsa="+Utility.isNull(id_risorsa)+" AND valore='1' AND inizio>="+Utility.isNull(inizio_minimo)+" ORDER BY inizio ASC LIMIT 0,1", "inizio");
+                String data_orario_5=Utility.getIstanza().querySelect("SELECT inizio FROM planning WHERE risorsa="+Utility.isNull(id_risorsa)+" AND valore='1' "
+                        + "AND inizio>="+Utility.isNull(inizio_minimo)+" ORDER BY inizio ASC LIMIT 0,1", "inizio");
+             
+                if(data_orario_5.equals("")){
+                    String data_crea_planning=GestioneCalendario.getIstanza().ultima_data_calendario();
+                    data_crea_planning=Utility.dataFutura(data_crea_planning, 1);
+                    GestionePlanning.getIstanza().creaPlanning(data_crea_planning);
+                    data_orario_5=Utility.getIstanza().querySelect("SELECT inizio FROM planning WHERE risorsa="+Utility.isNull(id_risorsa)+" AND valore='1' "
+                        + "AND inizio>="+Utility.isNull(inizio_minimo)+" ORDER BY inizio ASC LIMIT 0,1", "inizio");
+                }
                 String data_5=data_orario_5.substring(0,10);
                 String orario_5=data_orario_5.substring(11,16);
             %>
-            <tr>
-                 <td colspan='2'>
-                    <input type="radio" id="data_ora_5" name="opzione" value="data_ora_5" onclick="seleziona_data_orario('5')">
-                    <label for="data_ora_5">Prima cella disponibile</label>
-                </td>
-                <td>
-                    <input type="date" id="data_5" value="<%=data_5%>" readonly="true" tabindex="-1" style="pointer-events: none">
-                    <input type="text" id="orario_5" value="<%=orario_5%>" readonly="true" tabindex="-1" style="pointer-events: none">                          
-                </td>  
-            </tr>            
+                <tr>
+                     <td colspan='2'>
+                        <input type="radio" id="data_ora_5" name="opzione" value="data_ora_5" onclick="seleziona_data_orario('5')">
+                        <label for="data_ora_5">Prima cella disponibile</label>
+                    </td>
+                    <td>
+                        <input type="date" id="data_5" value="<%=data_5%>" readonly="true" tabindex="-1" style="pointer-events: none">
+                        <input type="text" id="orario_5" value="<%=orario_5%>" readonly="true" tabindex="-1" style="pointer-events: none">                          
+                    </td>  
+                </tr>                    
             <%
-                String data_orario_2_ultima_attivita=Utility.getIstanza().querySelect("SELECT fine FROM attivita WHERE risorsa="+Utility.isNull(id_risorsa)+" AND stato='1' AND situazione="+Utility.isNull(Attivita.INPROGRAMMAZIONE)+" ORDER BY fine DESC LIMIT 0,1","fine");
+            String data_orario_2_ultima_attivita=Utility.getIstanza().querySelect("SELECT fine FROM attivita WHERE risorsa="+Utility.isNull(id_risorsa)+" AND stato='1' AND situazione="+Utility.isNull(Attivita.INPROGRAMMAZIONE)+" ORDER BY fine DESC LIMIT 0,1","fine");
+                if(!data_orario_2_ultima_attivita.equals("")){
                 String data_orario_2=Utility.getIstanza().querySelect("SELECT min(inizio) as data_orario_2 FROM planning WHERE inizio>="+Utility.isNull(data_orario_2_ultima_attivita)+" AND risorsa="+id_risorsa+" AND valore='1' ","data_orario_2");
                 String data_2=data_orario_2.substring(0,10);
                 String orario_2=data_orario_2.substring(11,16);
@@ -297,6 +321,7 @@
                     <input type="text" id="orario_2" value="<%=orario_2%>" readonly="true" tabindex="-1" style="pointer-events: none">                          
                 </td>    
             </tr>          
+             <%}%>
             <tr>
                 <td>
                     <input type="radio" id="data_ora_3" name="opzione" value="data_ora_3" onclick="seleziona_data_orario('3')" >
@@ -311,8 +336,7 @@
                         <%}%>
                     </select>
                 </td>                
-            </tr>
-
+            </tr>           
             <tr>
                 <td></td>
                 <td colspan="2">
@@ -323,7 +347,7 @@
                     if(!new_inizio.equals("")){                                                      
                         boolean errore=false;
                         
-                        if(Utility.viene_prima(new_inizio, prima_data_planning+" 00:00:00")  || Utility.viene_prima(ultima_data_planning+" 00:00:00",new_inizio)  ){
+                        if(Utility.viene_prima(new_inizio, prima_data_planning+" 00:00:00")  || Utility.viene_prima(ultima_data_planning+" 00:00:00",new_inizio)){
                             errore=true;%>
                             <div class="errore">
                                 Impossibile programmare l'attività nella data/ora selezionata.

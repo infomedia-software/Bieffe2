@@ -35,7 +35,8 @@
         return;
     }
     
-    String ultima_data_planning=GestionePlanning.getIstanza().ultima_data_planning();    
+    String prima_data_planning=GestionePlanning.getIstanza().prima_data_planning();
+    String ultima_data_planning=Utility.dataFutura(prima_data_planning, 60);
     int differenza_date=Utility.differenzaTimestamp(data+" 00:00:00",ultima_data_planning+" 00:00:00");
     
     if(differenza_date>0){

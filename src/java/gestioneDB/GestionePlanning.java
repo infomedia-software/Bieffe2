@@ -312,7 +312,7 @@ public class GestionePlanning {
      *********************************************************************************/
     public  void creaPlanning(String data){                
         Utility.getIstanza().query("CALL creaPlanning("+Utility.isNull(data)+")");                
-        Utility.getIstanza().query("INSERT INTO calendario(data,situazione,stato) VALUES("+Utility.isNull(data)+",'abilitato','1')");
+        //Utility.getIstanza().query("INSERT INTO calendario(data,situazione,stato) VALUES("+Utility.isNull(data)+",'abilitato','1')");
     }
     
     

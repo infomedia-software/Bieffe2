@@ -23,6 +23,11 @@ public class GestioneCalendario {
         return istanza;
     }
 
+    public String ultima_data_calendario(){
+        String temp=Utility.getIstanza().querySelect(" SELECT max(data) as data_max FROM calendario", "data_max");                
+        return temp;
+    }
+    
     public boolean is_data_creata(String data_input){
         boolean toReturn=false;
         String temp=Utility.getIstanza().querySelect(" SELECT data FROM calendario WHERE data="+Utility.isNull(data_input), "data");        

@@ -4,14 +4,14 @@
 <%@page import="beans.Risorsa"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="gestioneDB.GestioneRisorse"%>
-<%@page import="utility.Utility"%>
+<%@page import="utility.Utility"%> 
 <%
     String operazione=Utility.eliminaNull(request.getParameter("operazione"));
     String data=Utility.eliminaNull(request.getParameter("data"));
     
     if(operazione.equals("abilita")){
-        GestionePlanning.getIstanza().creaPlanning(data);
-        Utility.getIstanza().query("UPDATE calendario SET situazione='abilitato' WHERE data="+Utility.isNull(data));
+        Utility.getIstanza().query("DELETE FROM calendario WHERE data="+Utility.isNull(data));
+        Utility.getIstanza().query("CALL abilita_data("+Utility.isNull(data)+")");                
     }
     if(operazione.equals("disabilita")){
         Utility.getIstanza().query("DELETE FROM planning WHERE DATE(inizio)="+Utility.isNull(data));
