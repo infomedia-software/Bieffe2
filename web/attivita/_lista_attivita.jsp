@@ -78,16 +78,12 @@
                 <%}%>
                 <th ></th>                
                 <th style="width: 100px">Inizio</th>
-                <th style="width: 65px;">Durata</th>            
-                <%if(utente.is_amministratore() || utente.is_ufficio()){%>                    
-                    <th>Data Consegna</th>
-                <%}%>                
+                <th style="width: 65px;">Durata</th>                    
                 <th></th>        
                 <th>Commessa</th>                        
                 <th>Cliente</th>                        
                 <th>Descrizione</th>                        
-                <th>Q.tà</th>
-                <th style="width: 280px"></th>
+                <th>Q.tà</th>                
                 <th style="width: 300px" >Note Attività</th>
             </tr>
         </thead>
@@ -123,14 +119,7 @@
                     </td>
                     <td>
                         <div class="tagsmall"><%=Utility.formatta_durata(attivita.getDurata())%> h</div>                    
-                    </td>                
-                    <%if(utente.is_amministratore() || utente.is_ufficio()){%>
-                        <td>                                                
-                            <%if(!attivita.getCommessa().getData_consegna().contains("0001")){
-                                out.println(Utility.convertiDatetimeFormatoIT(attivita.getCommessa().getData_consegna()).substring(0,10));
-                            }%>                        
-                        </td>          
-                    <%}%>
+                    </td>                              
                     <td>
                         <div class="ball float-left" style="height: 20px;width: 20px;background-color:<%=attivita.getCommessa().getColore()%>;"></div>                  
                     </td>
@@ -149,28 +138,7 @@
                             <b><%=attivita.getRisorsa().getNome()%></b> - 
                         <%}%>
                         <%=Utility.elimina_zero(attivita.getCommessa().getQta())%>
-                    </td>
-                    <td>                               
-                        <div <%if( utente.is_reparto()){%> style="pointer-events: none" <%}%> >
-                            <div class="float-left width25" style="line-height: 14px">
-                                <input type="checkbox" value="_1_"  class="carta_<%=attivita.getId()%> float-left" id="carta_<%=attivita.getId()%>" <%if(attivita.getCarta().contains("_1_")){%> checked="true" <%}%> onchange="modifica_attivita('<%=attivita.getId()%>',this)" style="width: 18px;height: 18px">
-                                <div class="float-left" style="height: 20px;line-height: 20px;padding-left: 3px;font-size: 10px;">MAG 1</div>
-                            </div>
-                            <div class="float-left width25">
-                                <input  type="checkbox" value="_2_" class="carta_<%=attivita.getId()%> float-left"  id="carta_<%=attivita.getId()%>" <%if(attivita.getCarta().contains("_2_")){%> checked="true" <%}%>  onchange="modifica_attivita('<%=attivita.getId()%>',this)" style="width: 18px;height: 18px">
-                                <div class="float-left" style="height: 20px;line-height: 20px;padding-left: 3px;font-size: 10px;">MAG 2</div>
-                            </div>
-
-                            <div class="float-left width25">
-                                <input  type="checkbox" value="_3_" class="carta_<%=attivita.getId()%> float-left" id="carta_<%=attivita.getId()%>" <%if(attivita.getCarta().contains("_3_")){%> checked="true" <%}%>  onchange="modifica_attivita('<%=attivita.getId()%>',this)" style="width: 18px;height: 18px">
-                                <div class="float-left" style="height: 20px;line-height: 20px;padding-left: 3px;font-size: 10px;">MACCH</div>
-                            </div>
-                            <div class="float-left width25">
-                                <input  type="checkbox" value="_4_" class="carta_<%=attivita.getId()%> float-left" id="carta_<%=attivita.getId()%>" <%if(attivita.getCarta().contains("_4_")){%> checked="true" <%}%>  onchange="modifica_attivita('<%=attivita.getId()%>',this)" style="width: 18px;height: 18px">
-                                <div class="float-left" style="height: 20px;line-height: 20px;padding-left: 3px;font-size: 10px;">LASTRE</div>
-                            </div>
-                        </div>
-                    </td>
+                    </td>                 
                     <td>
                         <%if(!attivita.getNote().equals("null")){%>
                             <textarea id="note" onchange="modifica_attivita('<%=attivita.getId()%>',this)" style="height: 30px;font-size: 11px;line-height: 14px"><%=Utility.standardizzaStringaPerTextArea(attivita.getNote())%></textarea>                        

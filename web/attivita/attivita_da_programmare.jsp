@@ -209,7 +209,7 @@
                                             <textarea id="note" onchange="modifica_attivita('<%=a.getId()%>',this)" style="height: 40px"><%=Utility.standardizzaStringaPerTextArea(a.getNote())%></textarea>                                    
                                         </td>
                                         <td>
-                                            <%if(!a.getCommessa().getId().equals(commessa_attivita_taglia) && ((commessa.equals(a.getCommessa().getId()) && ((int)a.getSeq())>=((int)(seq_prec+1))) || (commessa.equals("") || !commessa.equals(a.getCommessa().getId())) || a.getSeq()==0)){%>
+                                            <%if(!a.getCommessa().getNumero().equals(commessa_attivita_taglia) && ((commessa.equals(a.getCommessa().getNumero()) && ((int)a.getSeq())>=((int)(seq_prec+1))) || (commessa.equals("") || !commessa.equals(a.getCommessa().getNumero())) || a.getSeq()==0)){%>
                                                 <button class="pulsante_tabella planning" onclick="mostrapopup('<%=Utility.url%>/attivita/_programma_attivita.jsp?id_attivita=<%=a.getId()%>')">
                                                     <img src="<%=Utility.url%>/images/planning.png"> Programma
                                                 </button>

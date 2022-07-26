@@ -205,12 +205,12 @@
         
         <div class="etichetta"></div>
         <div class="valore">
-            <input type="text" readonly="true" tabindex="-1" value="<%=attivita.getCommessa().getNote()%>">
+            <span style="height: auto;line-height: 16px;"><%=attivita.getCommessa().getNote()%></span>
         </div>
         
         <div class="etichetta">Descrizione</div>
         <div class="valore">
-            <textarea id="descrizione" name="descrizione"><%=attivita.getDescrizione()%></textarea>
+            <span><%=attivita.getDescrizione()%></span>
         </div>
         
         <div class="etichetta">Durata</div>
@@ -330,17 +330,10 @@
 
                 <div class="clear"></div>
 
-            <div class="etichetta">Q.tà</div>
-            <div class="valore">
-                <input type="number" name="qta_ordine_fornitore">
-            </div>
-            
-            <div class="etichetta">Prezzo Unitario</div>
-            <div class="valore">
-                <input type="number" name="prezzo_ordine_fornitore">
-            </div>
-                                          
+                <input type="hidden" name="qta_ordine_fornitore" >
+                <input type="hidden" name="prezzo_ordine_fornitore">
                 
+            
             <div class="etichetta">Note</div>
             <div class="valore">
                 <textarea id="note" name="note"></textarea>
