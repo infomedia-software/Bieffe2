@@ -17,14 +17,7 @@
     
     
     String query="";
-    
-    // Modifica del task associato ad un'attività -> modifica anche della duratatasks
-    if(campodamodificare.equals("task") && !newvalore.equals("")){
-        GestioneSincronizzazione.getIstanza().associa_attivita_task(idattivita, newvalore);        
-        Utility.getIstanza().query("UPDATE attivita SET task='' "
-                + "WHERE task="+Utility.isNull(newvalore)+" AND id!="+idattivita); // Cancello il task se già associato a qualche altra attività
-        return;
-    }
+ 
     
      // Modifica del ritardo    
     if(campodamodificare.equals("ritardo")){
@@ -98,14 +91,15 @@
         Utility.getIstanza().query(query_attivita_insieme);
     }
     
+    
+    // Imposto da programmare la situazione
     if(campodamodificare.equals("situazione") && newvalore.equals("da programmare")){        
         Attivita attivita=GestionePlanning.getIstanza().ricercaAttivita(" attivita.id="+idattivita).get(0);
         
         Utility.getIstanza().query("UPDATE planning SET valore='1' WHERE valore="+idattivita+"");       
         Utility.getIstanza().query("UPDATE attivita SET "
                     + "inizio='"+Utility.dadefinire+"',"                    
-                    + "fine='"+Utility.dadefinire+"',"
-                    + "risorsa='',"
+                    + "fine='"+Utility.dadefinire+"',"                    
                     + "situazione="+Utility.isNull(Attivita.DAPROGRAMMARE)+" "
                 + "WHERE "
                     + "id="+idattivita);       
@@ -135,11 +129,36 @@
         
     }
     
-    
+    // Imposto a vuoto la situazione
     if(campodamodificare.equals("situazione") && newvalore.equals("")){        
-        Utility.getIstanza().query("UPDATE attivita SET inizio='3001-01-01 00:00:00',fine='3001-01-01 00:00:00',risorsa='',seq=0 WHERE id="+idattivita);               
+        
+        Attivita attivita=GestionePlanning.getIstanza().ricercaAttivita(" attivita.id="+idattivita).get(0);
+        
+        Utility.getIstanza().query("UPDATE planning SET valore='1' WHERE valore="+idattivita+"");      
+        Utility.getIstanza().query("UPDATE attivita SET inizio='3001-01-01 00:00:00',fine='3001-01-01 00:00:00',risorsa='',seq=0,situazione='' WHERE id="+idattivita);               
+        
+        double sequenza_min=attivita.getSeq();
+        int sequenza_max=((int)sequenza_min)+1;
+        
+        String id_coinvolte=Utility.eliminaNull(Utility.getIstanza().querySelect(" SELECT GROUP_CONCAT(id) as lista FROM attivita WHERE "
+            + "attivita.commessa="+Utility.isNull(attivita.getCommessa().getId())+" AND "
+            + "attivita.seq>="+sequenza_min+" AND "
+            + "attivita.seq<"+sequenza_max+" AND "            
+            + "attivita.stato='1' AND "
+            + "attivita.id!="+idattivita+" "
+            + "ORDER BY attivita.seq ASC","lista"));
+        if(id_coinvolte.length()>0){
+            Utility.getIstanza().query("UPDATE attivita SET inizio="+Utility.isNull(Utility.dadefinire)+",fine="+Utility.isNull(Utility.dadefinire)+",situazione='',risorsa='',seq=0 WHERE id IN ("+id_coinvolte+")");                      
+            Utility.getIstanza().query("UPDATE planning SET valore='1' WHERE valore IN ("+id_coinvolte+")");
+        }
         String id_commessa=Utility.getIstanza().getValoreByCampo("attivita", "commessa", "id="+idattivita);
-        Utility.getIstanza().query("UPDATE commesse SET situazione='incorso' WHERE id="+Utility.isNull(id_commessa));        
+        
+        int attivita_programmate=(int)Utility.getIstanza().querySelectDouble("SELECT count(id) as attivita_programmate FROM attivita "
+                + "WHERE  situazione='programmata' AND stato='1' AND commessa="+Utility.isNull(attivita.getCommessa().getId()),"attivita_programmate" );
+        if(attivita_programmate>0)
+            Utility.getIstanza().query("UPDATE commesse SET situazione='programmata' WHERE id="+Utility.isNull(id_commessa));        
+        if(attivita_programmate==0)
+            Utility.getIstanza().query("UPDATE commesse SET situazione='daprogrammare' WHERE id="+Utility.isNull(id_commessa));        
     }
     
     

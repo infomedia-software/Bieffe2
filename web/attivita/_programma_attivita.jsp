@@ -20,6 +20,7 @@
     ArrayList<String> orari=Utility.getIstanza().lista_orari();
 
     String id_risorsa=attivita.getRisorsa().getId();
+
     
     Attivita attivita_precedente=GestionePlanning.getIstanza().ricerca_attivita(" "
             + "attivita.id!="+id_attivita+" AND "

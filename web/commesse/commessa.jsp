@@ -153,7 +153,7 @@
             
             <h1>
                 <button class="pulsantesmall" type="button" onclick="location.href='<%=request.getHeader("referer")%>'"><img src="<%=Utility.url%>/images/back.png"></button>
-                <div class="tag" style="background-color:<%=commessa.getColore()%>"><%=commessa.getNumero()%></div><%=commessa.getDescrizione()%> - <%=commessa.getSoggetto().getAlias()%>                
+                <div class="tag" style="background-color:<%=commessa.getColore()%>"><%=commessa.getNumero()%></div> <%=commessa.getSoggetto().getAlias()%> - <%=commessa.getDescrizione()%>
             </h1>
                 
             
@@ -314,8 +314,7 @@
                             <th>Durata</th>
                             <th>Scostamento</th>
                             <th>Risorsa</th>
-                            <th>Note</th>
-                            <th>Task</th>
+                            <th>Note</th>                            
                             <th style="width: 135px">Situazione</th>
                             <th style="width: 200px"></th>
                             
@@ -353,14 +352,7 @@
                                 <td><%=a.getRisorsa().stampa()%></td>                                
                                 <td>
                                     <%=Utility.standardizzaStringaPerTextArea(a.getNote())%>
-                                </td>                                
-                                <td>
-                                    <%if(!a.getTask().equals("")){%>
-                                        <a href='<%=Utility.url%>/tasks/_sottotasks.jsp?id_esterno=<%=a.getTask()%>' class="pulsante_tabella task" target="_blank">
-                                            <img src="<%=Utility.url%>/images/task.png"> <%=a.getTask()%>
-                                        </a>
-                                    <%}%>
-                                </td>
+                                </td>                                                               
                                 <td>                                    
                                     <%if(a.is_da_programmare()){%>
                                         <div class="tag da_programmare">Da Programmare</div>
@@ -425,7 +417,7 @@
                                 </td>                                                                
                                 <td>
                                     <button class="pulsante_tabella float-left"  onclick="mostrapopup('<%=Utility.url%>/attivita/_da_programmare.jsp?id_attivita=<%=a.getId()%>&fase=<%=a.getFase_input().getFase().getId()%>&sottofase=<%=a.getFase_input().getId()%>','Attivita <%=a.getId()%>')">
-                                        <img src="<%=Utility.url%>/images/planning.png"> Programma
+                                        <img src="<%=Utility.url%>/images/setting.png"> Configura
                                     </button>
                                     <button class="pulsante_tabella delete float-left" onclick="cancella_attivita('<%=a.getId()%>')">
                                         <img src="<%=Utility.url%>/images/delete.png"> Cancella

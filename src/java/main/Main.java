@@ -27,8 +27,8 @@ public class Main {
     
     public static void main(String[] args){       
         
-        GestioneSincronizzazione.getIstanza().sincronizza_commesse("22A0985P01");
-        //GestionePlanning.getIstanza().creaPlanning("2022-07-18");
+        //GestioneSincronizzazione.getIstanza().sincronizza_commesse("22A0985P01");
+        GestionePlanning.getIstanza().creaPlanning("2022-08-04");
         
         
         /*

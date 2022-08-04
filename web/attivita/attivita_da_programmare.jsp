@@ -168,14 +168,19 @@
                                 for(Attivita a:attivita_da_programmare){%>
                                     <%if(!a.getCommessa().getNumero().equals(commessa)){%>
                                     <tr>
-                                         <td colspan='9' style='background-color: lightgray;padding: 5px;'>
-                                            <div class="tag float-left" style="background-color:<%=a.getCommessa().getColore()%>;margin-right: 10px;" >                                    
+                                        <td style='background-color: lightgray;width: 80px;vertical-align: top'>
+                                            <div class="tag float-left" style="background-color:<%=a.getCommessa().getColore()%>;margin-right: 10px;" >                                     
                                                 <%=a.getCommessa().getNumero()%>
                                             </div>                                                                         
-                                                <a href="<%=Utility.url%>/commesse/commessa.jsp?id=<%=a.getCommessa().getId()%>" style="font-weight: bold;font-size:14px"><%=a.getCommessa().getDescrizione()%></a> - 
-                                                <a href="<%=Utility.url%>/soggetti/soggetto.jsp?id=<%=a.getCommessa().getSoggetto().getId()%>" style="font-weight: bold;font-size:14px"><%=a.getCommessa().getSoggetto().getAlias()%></a>
-                                            <br>
-                                            <%=a.getCommessa().getNote()%>                                            
+                                        </td>
+                                        <td colspan="8" style='background-color: lightgray;padding: 5px;'>                                            
+                                            <a href="<%=Utility.url%>/soggetti/soggetto.jsp?id=<%=a.getCommessa().getSoggetto().getId()%>" style="font-weight: bold;font-size:14px"><%=a.getCommessa().getSoggetto().getAlias()%></a>
+                                            <br><br>
+                                            <a href="<%=Utility.url%>/commesse/commessa.jsp?id=<%=a.getCommessa().getId()%>" style="font-weight: bold;font-size:14px"><%=a.getCommessa().getDescrizione()%></a>
+                                            <br><br>
+                                            <div style="font-size: 11px;">
+                                                <%=a.getCommessa().getNote()%>                                            
+                                            </div>
                                             <%if(a.getCommessa().getData_consegna()!=null){%>
                                                 Data Consegna: <%=Utility.convertiDatetimeFormatoIT(a.getCommessa().getData_consegna()).substring(0,10)%>
                                             <%}%>
