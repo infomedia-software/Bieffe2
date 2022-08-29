@@ -1,3 +1,4 @@
+<%@page import="gestioneDB.GestioneRisorse"%>
 <%@page import="gestioneDB.GestioneCalendario"%>
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -14,14 +15,59 @@
         new_inizio=new_inizio+":00";    
     Attivita attivita=GestionePlanning.getIstanza().ricercaAttivita(" attivita.id="+id_attivita).get(0);
     
+    
+    String id_risorsa=attivita.getRisorsa().getId();
+    
+     if(id_risorsa.equals("")){            
+        ArrayList<Risorsa> risorse=GestioneRisorse.getIstanza().ricercaRisorse(" risorse.stato='1' AND risorse.fasi_input LIKE "+Utility.isNullLike(attivita.getFase_input().getId())+" ORDER BY risorse.ordinamento ASC");
+%>
+
+    <script type="text/javascript">
+        function modifica_risorsa_attivita(){
+            var id_attivita="<%=id_attivita%>";
+            var newvalore=$("#risorsa").val();
+            var campodamodificare="risorsa";
+            $.ajax({
+                type: "POST",
+                url: "<%=Utility.url%>/attivita/__modificaattivita.jsp",
+                data: "newvalore="+encodeURIComponent(String(newvalore))+"&campodamodificare="+campodamodificare+"&idattivita="+id_attivita,
+                dataType: "html",
+                success: function(msg){    
+                    mostrapopup("<%=Utility.url%>/attivita/_programma_attivita.jsp?id_attivita=<%=id_attivita%>&new_inizio=<%=new_inizio%>");                    
+                },
+                error: function(){
+                    alert("IMPOSSIBILE EFFETTUARE L'OPERAZIONE modifica_risorsa_attivita()" );
+                }
+            });       
+        }
+    </script>
+    
+    <div class="box">
+        <div class="messaggio">
+            Impossibile procedere alla programmazione dell'attività.
+            Nessuna risorsa configurata.
+        </div>
+        <div class='height5'></div>
+        <div class="etichetta">Risorsa</div>
+        <div class="valore">
+            <select id="risorsa" onchange="modifica_risorsa_attivita()">
+                <option value=""></option>
+                <%for(Risorsa risorsa:risorse){%>
+                    <option value="<%=risorsa.getId()%>"><%=risorsa.getCodice()%> <%=risorsa.getNome()%></option>
+                <%}%>
+            </select>
+        </div>
+            <div class='height5'></div>
+    </div>
+<%
+    }else{
+    
+    
     String prima_data_planning=Utility.getIstanza().querySelect("SELECT DATE(min(inizio)) as prima_data_planning FROM planning WHERE 1 ORDER BY inizio DESC LIMIT 0,1", "prima_data_planning");
     
     
     ArrayList<String> orari=Utility.getIstanza().lista_orari();
 
-    String id_risorsa=attivita.getRisorsa().getId();
-
-    
     Attivita attivita_precedente=GestionePlanning.getIstanza().ricerca_attivita(" "
             + "attivita.id!="+id_attivita+" AND "
             + "attivita.commessa="+Utility.isNull(attivita.getCommessa().getId())+" AND "

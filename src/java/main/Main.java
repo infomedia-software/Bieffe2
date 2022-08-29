@@ -28,8 +28,10 @@ public class Main {
     public static void main(String[] args){       
         
         //GestioneSincronizzazione.getIstanza().sincronizza_commesse("22A0985P01");
-        GestionePlanning.getIstanza().creaPlanning("2022-08-04");
-        
+        GestionePlanning.getIstanza().creaPlanning("2022-08-27");
+        GestionePlanning.getIstanza().creaPlanning("2022-08-28");
+        GestionePlanning.getIstanza().creaPlanning("2022-08-29");
+        GestionePlanning.getIstanza().creaPlanning("2022-08-30");
         
         /*
         String id_risorsa="13";
