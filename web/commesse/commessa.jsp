@@ -392,18 +392,14 @@
                             + "attivita.stato='1' ORDER BY attivita.seq_input ASC");%>
                     <h2>Attività Importate</h2>
                     <table class="tabella">
-                        <tr>        
-                            <th style="width: 35px"></th>                            
+                        <tr>                                    
                             <th>Descrizione</th>
                             <th>Fase</th>                                                        
                             <th>Durata</th>             
                             <th style="width: 200px"></th>
                         </tr>
                         <%for(Attivita a:in_attesa){%>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" value="<%=a.getId()%>" class="checkbox_attivita">
-                                </td>
+                            <tr>                                
                                 <td>
                                     <%=a.getDescrizione()%>                                                                        
                                 </td>                                 
