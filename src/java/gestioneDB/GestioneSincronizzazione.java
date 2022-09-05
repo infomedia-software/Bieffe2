@@ -169,7 +169,7 @@ public class GestioneSincronizzazione {
                 String query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,dbo.Ore.centro,"
                         + "dbo.Commesse.noteout,dbo.Commesse.qta FROM dbo.Commesse "
                     + "LEFT OUTER JOIN dbo.Ore ON dbo.Commesse.codice=dbo.Ore.commessa "
-                    + "WHERE dbo.Ore.centro='LAV.APPROV.' AND cen='1010' AND Data3 is NULL ORDER BY dataComm asc";           
+                    + "WHERE dbo.Ore.centro='LAV.APPROV.' AND cen='1010' AND Data3 is NULL AND codice NOT Like '%E%' ORDER BY dataComm asc";           
                 //System.out.println(query);
                 rs=stmt.executeQuery(query);
                 while(rs.next()){             
@@ -201,7 +201,7 @@ public class GestioneSincronizzazione {
                 query="SELECT dbo.Commesse.codice,dbo.Commesse.dataComm,dbo.Commesse.lavoro,dbo.Commesse.descr,dbo.Commesse.codcli,Data3,CodiceFase,dbo.Commesse.noteout,dbo.Commesse.qta "
                         + "FROM dbo.Commesse "
                         + "LEFT OUTER JOIN dbo.Altro ON dbo.Commesse.codice=dbo.Altro.rifCommessa "
-                        + "WHERE dbo.Altro.CodiceFase='00143' AND Data3 IS NULL ORDER BY dataComm DESC";           
+                        + "WHERE dbo.Altro.CodiceFase='00143' AND Data3 IS NULL AND codice NOT Like '%E%' ORDER BY dataComm DESC";           
                 //System.out.println(query);
                 rs=stmt.executeQuery(query);
                 while(rs.next()){                             
