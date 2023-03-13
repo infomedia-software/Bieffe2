@@ -7,7 +7,7 @@
     <servlet>
         <servlet-name>Thread</servlet-name>
         <servlet-class>thread.Thread</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <!--load-on-startup>1</load-on-startup-->
     </servlet>
     <error-page>
         <location>/errore.jsp</location>

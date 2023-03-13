@@ -126,7 +126,13 @@
                 <a href="<%=Utility.url%>/planning/planning.jsp?" class="pulsantehome planning float-left">
                     <img src="<%=Utility.url%>/images/planning.png">
                     <div class="titolo">Planning</div>                            
+                </a>   
+                    
+                  <a href="<%=Utility.url%>/act_pl/act_pl.jsp" class="pulsantehome prestampa float-left"  >
+                    <img src="<%=Utility.url%>/images/planning.png">
+                    <div class="titolo">Planning Prestampa</div>                            
                 </a>                                                       
+
 
                 <a href='<%=Utility.url%>/attivita/lista_attivita.jsp'  class="pulsantehome listaattivita float-left ">
                     <img src="<%=Utility.url%>/images/attivita.png">                        

@@ -931,4 +931,13 @@ public class Utility {
         return toReturn;
     }
     
+    public static String rimuovi_ultima_occorrenza(String stringa,String caratteri){
+        String toReturn=stringa;
+        if(stringa.contains(caratteri))
+            toReturn=stringa.substring(0,stringa.lastIndexOf(caratteri));
+        return toReturn;
+    }
+    
+    
+    
 }
