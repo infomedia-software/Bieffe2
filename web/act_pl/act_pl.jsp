@@ -141,8 +141,7 @@
          
             function incolla_act_prima_dopo(operazione){
                 var id_act=$("#id_act").val();
-                var id_act_incolla=$("#id_act_incolla").val();                
-                alert(id_act+" ->"+id_act_incolla)
+                var id_act_incolla=$("#id_act_da_programmare").val();                
                 $.ajax({
                     type: "POST",
                     url: "<%=Utility.url%>/act/__incolla_act_prima_dopo.jsp",
@@ -346,7 +345,7 @@
                 <div style="position: fixed;right: 5px;bottom: 5px;background-color: #eee;display: none;">
                   id_act  <input type="text" id="id_act" value="">
                   <br>
-                  id_act da programmare<input type="text" id="id_act_incolla" value="<%=id_act_da_programmare%>">
+                  id_act da programmare<input type="text" id="id_act_da_programmare" value="<%=id_act_da_programmare%>">
                   <br>
                   id_act_res <input type="text" id="id_act_res">            
                   <br>

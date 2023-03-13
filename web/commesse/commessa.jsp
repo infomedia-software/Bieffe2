@@ -354,25 +354,14 @@
                                     <%=Utility.standardizzaStringaPerTextArea(a.getNote())%>
                                 </td>                                                               
                                 <td>                                    
-                                    <%if(a.is_da_programmare()){%>
-                                        <div class="tag da_programmare">Da Programmare</div>
-                                    <%}%>
-                                    <%if(a.is_in_programmazione()){%>
-                                        <div class="tag in_programmazione">In Programmazione</div>
+                                   <% if(a.getId_act().equals("")){%>
+                                        <button class="pulsante_tabella" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_attivita=<%=a.getId()%>')"><img src="<%=Utility.url%>/images/setting.png">Programma</button>
+                                    <%}else{%>
+                                        <div class="tag in_programmazione">In programmazione</div>
                                     <%}%>
                                 </td>
                                 <td>
-                                    <%if(a.is_da_programmare()){%>
-                                        <button class="pulsante_tabella float-left" id="situazione" value="" onclick="modifica_attivita('<%=a.getId()%>',this)">
-                                            <img src="<%=Utility.url%>/images/planning.png"> Rimuovi
-                                        </button>
-                                        <button class="pulsante_tabella float-left fit-content" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_attivita=<%=a.getId()%>')"><img src="<%=Utility.url%>/images/setting.png">Configura Prestampa</button>
-                                    <%}%>
-                                    <%if(a.is_in_programmazione()){%>
-                                        <a href='<%=Utility.url%>/planning/planning.jsp?data=<%=a.getInizioData()%>' class="pulsante_tabella planning float-left " target="_blank">
-                                            <img src="<%=Utility.url%>/images/planning.png"> Planning
-                                        </a>                                                                                    
-                                    <%}%>                                                                           
+                                                                                      
                                 </td>                                
                             </tr>
                         <%}%>

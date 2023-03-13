@@ -123,14 +123,14 @@
                     <div class="titolo">Commesse<br>Concluse</div>                           
                 </a>                            
 
-                <a href="<%=Utility.url%>/planning/planning.jsp?" class="pulsantehome planning float-left">
+                <!--a href="<%=Utility.url%>/planning/planning.jsp?" class="pulsantehome planning float-left">
                     <img src="<%=Utility.url%>/images/planning.png">
                     <div class="titolo">Planning</div>                            
-                </a>   
+                </a-->   
                     
-                  <a href="<%=Utility.url%>/act_pl/act_pl.jsp" class="pulsantehome prestampa float-left"  >
+                  <a href="<%=Utility.url%>/act_pl/act_pl.jsp" class="pulsantehome planning float-left"  >
                     <img src="<%=Utility.url%>/images/planning.png">
-                    <div class="titolo">Planning Prestampa</div>                            
+                    <div class="titolo">Planning</div>                            
                 </a>                                                       
 
 
