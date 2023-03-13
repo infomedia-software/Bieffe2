@@ -556,51 +556,7 @@ public class Utility {
     
     
     
-    public static boolean viene_prima_date(String date1,String date2){       
-        String datetime1=date1+" 00:00:00";
-        String datetime2=date2+" 00:00:00";
-        boolean toReturn=false;        
-        java.sql.Timestamp oldTime=Utility.converti_string_timestamp(datetime1);
-        java.sql.Timestamp currentTime=Utility.converti_string_timestamp(datetime2);
-        long milliseconds1 = oldTime.getTime();
-        long milliseconds2 = currentTime.getTime();
-        long diff = milliseconds2 - milliseconds1;        
-        if(diff>=0)
-            toReturn=true;
-        return toReturn;
-    }
-    
-    
-    public static boolean viene_prima(String datetime1,String datetime2){       
-         boolean toReturn=false;
-        //System.out.println("data0==>"+data_ora_0);
-        //System.out.println("data1==>"+data_ora_1);
-        java.sql.Timestamp oldTime=Utility.converti_string_timestamp(datetime1);
-        java.sql.Timestamp currentTime=Utility.converti_string_timestamp(datetime2);
-        long milliseconds1 = oldTime.getTime();
-        long milliseconds2 = currentTime.getTime();
-        long diff = milliseconds2 - milliseconds1;        
-        if(diff>=0)
-            toReturn=true;
-        return toReturn;
-    }
-    
-    public static Timestamp converti_string_timestamp(String yourString){
-        Timestamp toReturn=null;
-        
-        
-        if(yourString.length()==10)
-            yourString=yourString+" 00:00:000";
-        if(yourString.length()<16)
-            yourString=yourString+":000";        
-        try {   
-            toReturn=Timestamp.valueOf(yourString) ;
-        } catch(Exception e) { 
-            GestioneErrori.errore("Utility", "converti_string_timestamp", e);
-        }
-        return toReturn;
-    }
-    
+ 
     /**
      *    date1.compareTo(date2); //date1 < date2 otterremo come risultato un valore < 0 \n
      *    date1.compareTo(date3); //date1 = date2 otterremo come risultato = 0 \n
@@ -935,6 +891,50 @@ public class Utility {
         String toReturn=stringa;
         if(stringa.contains(caratteri))
             toReturn=stringa.substring(0,stringa.lastIndexOf(caratteri));
+        return toReturn;
+    }
+    
+    public static boolean viene_prima_date(String date1,String date2){       
+        String datetime1=date1+" 00:00:00";
+        String datetime2=date2+" 00:00:00";
+        boolean toReturn=false;        
+        java.sql.Timestamp oldTime=Utility.converti_string_timestamp(datetime1);
+        java.sql.Timestamp currentTime=Utility.converti_string_timestamp(datetime2);
+        long milliseconds1 = oldTime.getTime();
+        long milliseconds2 = currentTime.getTime();
+        long diff = milliseconds2 - milliseconds1;        
+        if(diff>=0)
+            toReturn=true;
+        return toReturn;
+    }
+    
+    
+    public static boolean viene_prima(String datetime1,String datetime2){       
+         boolean toReturn=false;
+        //System.out.println("data0==>"+data_ora_0);
+        //System.out.println("data1==>"+data_ora_1);
+        java.sql.Timestamp oldTime=Utility.converti_string_timestamp(datetime1);
+        java.sql.Timestamp currentTime=Utility.converti_string_timestamp(datetime2);
+        long milliseconds1 = oldTime.getTime();
+        long milliseconds2 = currentTime.getTime();
+        long diff = milliseconds2 - milliseconds1;        
+        if(diff>=0)
+            toReturn=true;
+        return toReturn;
+    }
+    
+    public static Timestamp converti_string_timestamp(String yourString){        
+        Timestamp toReturn=null;        
+        
+        if(yourString.length()==10)
+            yourString=yourString+" 00:00:000";
+        if(yourString.length()==16)
+            yourString=yourString+":000";        
+        try {   
+            toReturn=Timestamp.valueOf(yourString) ;
+        } catch(Exception e) { 
+            GestioneErrori.errore("Utility", "converti_string_timestamp", e);
+        }
         return toReturn;
     }
     

@@ -142,6 +142,7 @@
             function incolla_act_prima_dopo(operazione){
                 var id_act=$("#id_act").val();
                 var id_act_incolla=$("#id_act_incolla").val();                
+                alert(id_act+" ->"+id_act_incolla)
                 $.ajax({
                     type: "POST",
                     url: "<%=Utility.url%>/act/__incolla_act_prima_dopo.jsp",
@@ -309,8 +310,8 @@
                 <ul class='custom-menu' id="menu_act">                                  
                     <li onclick="taglia_act()"><img src="<%=Utility.url%>/images/cut.png" class="custom-menu-icon">Taglia</li>                                 
                     <%if(!id_act_da_programmare.equals("")){%>
-                        <li onclick="programma_act_prima_dopo('prima')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Prima</li>                                 
-                        <li onclick="programma_act_prima_dopo('dopo')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Dopo</li>                                                        
+                        <li onclick="incolla_act_prima_dopo('prima')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Prima</li>                                 
+                        <li onclick="incolla_act_prima_dopo('dopo')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Dopo</li>                                                        
                     <%}%>
                      <li onclick="start_act_tsk()"><img src="<%=Utility.url%>/images/play.png" class="custom-menu-icon">Start</li>                                 
                 </ul>
@@ -319,8 +320,8 @@
                 <ul class='custom-menu' id="menu_act">                                  
                     <li onclick="taglia_act()"><img src="<%=Utility.url%>/images/cut.png" class="custom-menu-icon">Taglia</li>                                 
                     <%if(!id_act_da_programmare.equals("")){%>
-                        <li onclick="programma_act_prima_dopo('prima')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Prima</li>                                 
-                        <li onclick="programma_act_prima_dopo('dopo')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Dopo</li>                                                        
+                        <li onclick="incolla_act_prima_dopo('prima')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Prima</li>                                 
+                        <li onclick="incolla_act_prima_dopo('dopo')"><img src="<%=Utility.url%>/images/paste.png" class="custom-menu-icon">Programma Dopo</li>                                                        
                     <%}%>
                      <li onclick="start_act_tsk()"><img src="<%=Utility.url%>/images/play.png" class="custom-menu-icon">Start</li>                                 
                 </ul>
@@ -345,7 +346,7 @@
                 <div style="position: fixed;right: 5px;bottom: 5px;background-color: #eee;display: none;">
                   id_act  <input type="text" id="id_act" value="">
                   <br>
-                  id_act da programmare<input type="text" id="id_act_da_programmare" value="<%=id_act_da_programmare%>">
+                  id_act da programmare<input type="text" id="id_act_incolla" value="<%=id_act_da_programmare%>">
                   <br>
                   id_act_res <input type="text" id="id_act_res">            
                   <br>

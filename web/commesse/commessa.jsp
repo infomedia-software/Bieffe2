@@ -164,7 +164,7 @@
                         <img src="<%=Utility.url%>/images/add.png">
                         Nuova Attività
                     </button>            
-
+                    
                     <a href='<%=Utility.url%>/commesse/_sincronizza_commesse.jsp?id_commessa=<%=id%>' class="pulsante"><img src="<%=Utility.url%>/images/sincro.png">Sincronizza Commessa</a>
                     
                     <button class="pulsante float-right delete" onclick="cancella_commessa('<%=id%>')">
@@ -366,6 +366,7 @@
                                         <button class="pulsante_tabella float-left" id="situazione" value="" onclick="modifica_attivita('<%=a.getId()%>',this)">
                                             <img src="<%=Utility.url%>/images/planning.png"> Rimuovi
                                         </button>
+                                        <button class="pulsante_tabella float-left fit-content" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_attivita=<%=a.getId()%>')"><img src="<%=Utility.url%>/images/setting.png">Configura Prestampa</button>
                                     <%}%>
                                     <%if(a.is_in_programmazione()){%>
                                         <a href='<%=Utility.url%>/planning/planning.jsp?data=<%=a.getInizioData()%>' class="pulsante_tabella planning float-left " target="_blank">

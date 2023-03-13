@@ -11,7 +11,7 @@ public class Attivita {
     private String descrizione;
     private String inizio;
     private String fine;
-    
+    private String id_act;
     private int ore;
     private int minuti;
     private double durata;
@@ -637,6 +637,14 @@ public class Attivita {
 
     public static void setINPROGRAMMAZIONE(String INPROGRAMMAZIONE) {
         Attivita.INPROGRAMMAZIONE = INPROGRAMMAZIONE;
+    }
+
+    public String getId_act() {
+        return id_act;
+    }
+
+    public void setId_act(String id_act) {
+        this.id_act = id_act;
     }
       
     

@@ -595,7 +595,7 @@ public class GestionePlanning {
                     risorsa.setFasi_produzione(risorse.get(risorsa_string).getFasi_produzione());
                 }
                 attivita.setRisorsa(risorsa);
-                
+                attivita.setId_act(rs.getString("attivita.id_act"));
                 attivita.setInizio(rs.getString("attivita.inizio"));
                 attivita.setFine(rs.getString("attivita.fine"));
                 attivita.setDescrizione(rs.getString("attivita.descrizione"));
