@@ -25,13 +25,25 @@ import utility.Utility;
 
 public class Main {
     
-    public static void main(String[] args){       
+    public static void main(String[] args){                               
+        GestionePlanning.getIstanza().creaPlanning("2023-01-06");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-07");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-08");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-09");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-10");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-11");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-12");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-13");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-14");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-15");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-16");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-17");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-18");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-19");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-20");
+        GestionePlanning.getIstanza().creaPlanning("2023-01-21");
         
-        //GestioneSincronizzazione.getIstanza().sincronizza_commesse("22A0985P01");
-        GestionePlanning.getIstanza().creaPlanning("2022-08-27");
-        GestionePlanning.getIstanza().creaPlanning("2022-08-28");
-        GestionePlanning.getIstanza().creaPlanning("2022-08-29");
-        GestionePlanning.getIstanza().creaPlanning("2022-08-30");
+        
         
         /*
         String id_risorsa="13";
