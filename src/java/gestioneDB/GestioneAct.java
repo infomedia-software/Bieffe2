@@ -1,6 +1,7 @@
 package gestioneDB;
 
 import beans.Act;
+import beans.ActPh;
 import beans.ActRes;
 import beans.Attivita;
 import beans.Commessa;
@@ -72,6 +73,7 @@ public class GestioneAct {
                         + "LEFT OUTER JOIN commesse ON act.id_commessa=commesse.id "
                         + "LEFT OUTER JOIN soggetti ON commesse.soggetto=soggetti.id "
                         + "LEFT OUTER JOIN act_res ON act.id_act_res=act_res.id "
+                        + "LEFT OUTER JOIN act_ph ON act.id_act_ph=act_ph.id "
                         + "WHERE "+query_input;
                 System.out.println(query);
                 stmt=conn.prepareStatement(query);
@@ -118,9 +120,10 @@ public class GestioneAct {
                         temp.setAct_res(act_res);
                         
                         
-                        Fase fase=new Fase();
-                            fase.setId(rs.getString("act.id_fase"));
-                        temp.setFase(fase);
+                        ActPh act_ph=new ActPh();
+                            act_ph.setId(rs.getString("act_ph.id"));
+                            act_ph.setNome(rs.getString("act_ph.nome"));
+                        temp.setAct_ph(act_ph);
                                                 
                         temp.setDescrizione(rs.getString("act.descrizione"));
                         temp.setInizio(rs.getString("act.inizio"));

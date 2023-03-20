@@ -361,28 +361,26 @@
                         <h2>Da Programmare</h2>
                         <%if(lista_act_da_programmare.size()==0){%>
                             <div class="messaggio">Nessuna attività da programmare</div>
-                        <%}else{%>
-                            <table class="tabella">
-                                <tr>                                    
-                                    <th colspan="2">Commessa</th>                                    
-                                    <th>Attività</th>
-                                    <th>Descrizione</th>
-                                    <th>Durata</th>                                    
-                                </tr>
-                                <%for(Act act:lista_act_da_programmare){%>
-                                <tr class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')">                                
-                                        <td>
-                                            <div class="tag float-left" style="background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>
-                                        </td>
-                                        <td>
-                                            <%=act.getCommessa().getDescrizione()%>
-                                        </td>                                        
-                                        <td><%=act.cliente()%></td>
-                                        <td><%=act.getDescrizione()%></td>
-                                        <td><%=act.getDurata_string()%> h</td>                                
-                                    </tr>
-                                <%}%>
-                            </table>
+                        <%}else{%>                            
+
+                        <%for(Act act:lista_act_da_programmare){%>                                    
+                            <div class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
+                                <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>
+                                <div class="clear"></div>
+                                <b>
+                                    <%=act.getCommessa().getDescrizione()%>
+                                </b>
+                                <br>
+                                <%=act.cliente()%>
+                                <br>
+                                <%=act.getAct_ph().getNome()%>
+                                <br>
+                                <div><%=act.getDescrizione()%></div>
+                                <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
+                                <div class="clear"></div>
+                            </div>                                    
+                        <%}%>
+                            
                         <%}%>
                     </div>                        
                 <%}%>                      
@@ -437,7 +435,7 @@
                             Map<Integer,Act> mappa_act_cel=new HashMap<Integer,Act>();
                             for(Act act:acts){%>
                                 <tr onclick="mostra_act('<%=act.getId()%>')" class="cursor-pointer">
-                                    <td class="act_list" id_act="<%=act.getId()%>" style="width: 100px;min-width: 100px;width: 100px">
+                                    <td class="act_list" id_act="<%=act.getId()%>" style="width: 100px;min-width: 100px;width: 100px;height: 20px">
                                         <div class="tag_tabella" style="background-color: <%=act.getCommessa().getColore()%>;color:white;">
                                             <%=act.getCommessa().getNumero()%>
                                         </div>

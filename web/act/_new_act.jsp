@@ -1,3 +1,5 @@
+<%@page import="beans.ActPh"%>
+<%@page import="gestioneDB.GestioneActPh"%>
 <%@page import="gestioneDB.GestioneActRes"%>
 <%@page import="beans.ActRes"%>
 <%@page import="beans.Attivita"%>
@@ -8,7 +10,7 @@
 <%@page import="utility.Utility"%>
 <%
     String id_commessa="";
-    String id_fase="";
+    String id_act_ph="";
     String descrizione="";
     double durata=1;
     String note="";
@@ -20,11 +22,13 @@
         descrizione=attivita.getDescrizione();
         durata=attivita.getDurata();
         note=attivita.getNote();
-        id_fase="";
+        id_act_ph=attivita.getFase_input().getId();
     }
     
     
     ArrayList<ActRes> list_act_res=GestioneActRes.getIstanza().ricerca("");
+    
+    ArrayList<ActPh> fasi=GestioneActPh.getIstanza().ricerca("");
 
 %>
 
@@ -54,7 +58,7 @@
 
         <input type="hidden" name="id_attivita" value="<%=id_attivita%>">
         <input type="hidden" name="id_commessa" value="<%=id_commessa%>">
-        <input type="hidden" name="id_fase" value="<%=id_fase%>">
+        
         
         <div class="etichetta">Descrizione</div>
         <div class="valore">
@@ -64,6 +68,16 @@
         <div class="etichetta">Durata</div>
         <div class="valore">
             <input type="number" id="durata" name="durata" value="<%=Utility.elimina_zero(durata)%>">
+        </div>
+        
+        <div class="etichetta">Fase</div>
+        <div class="valore">
+            <select id="id_act_ph" name="id_act_ph">
+                <option value=""></option>
+                <%for(ActPh fase:fasi){%>
+                    <option value="<%=fase.getId()%>"><%=fase.getNome()%></option>
+                <%}%>
+            </select>
         </div>
         
         <div class="etichetta">Risorsa</div>

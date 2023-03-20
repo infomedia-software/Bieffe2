@@ -8,7 +8,7 @@ public class Act {
     private String id;
     private Commessa commessa;
     private ActRes act_res;
-    private Fase fase;
+    private ActPh act_ph;
     
     private String descrizione;
     private String inizio;
@@ -126,14 +126,15 @@ public class Act {
         this.act_res = act_res;
     }
 
-    public Fase getFase() {
-        return fase;
+    public ActPh getAct_ph() {
+        return act_ph;
     }
 
-    public void setFase(Fase fase) {
-        this.fase = fase;
+    public void setAct_ph(ActPh act_ph) {
+        this.act_ph = act_ph;
     }
 
+   
     public String getDescrizione() {
         return descrizione;
     }
