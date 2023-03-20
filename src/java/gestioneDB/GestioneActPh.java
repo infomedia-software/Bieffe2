@@ -26,8 +26,8 @@ public class GestioneActPh {
         try{
             Connection conn=DBConnection.getConnection();
             if(q.equals(""))
-                q=" stato='1' ORDER BY fasi.codice ASC";
-            String query="SELECT * FROM fasi WHERE "+q;            
+                q=" stato='1' ORDER BY act_ph.ordinamento ASC";
+            String query="SELECT * FROM act_ph WHERE "+q;            
             Statement stmt = conn.createStatement();
             ResultSet rs=stmt.executeQuery(query);        
             while(rs.next()){      
