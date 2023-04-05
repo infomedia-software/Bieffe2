@@ -53,14 +53,16 @@
     
     <div class="etichetta">Commessa</div>
     <div class="valore">
-        <span>
-            <div class="ball" style="background-color: <%=act.commessa_colore()%>"></div>
-            <%=act.commessa_numero()%> <%=act.commessa_descrizione()%>
-        </span>
+        <a href="<%=Utility.url%>/commesse/commessa.jsp?id=<%=act.getCommessa().getId()%>" target="_blank">
+            <span>
+                <div class="ball" style="background-color: <%=act.commessa_colore()%>"></div>
+                <%=act.commessa_numero()%> <%=act.commessa_descrizione()%>
+            </span>
+        </a>
     </div>      
     
     <div class="etichetta">Cliente</div>
-    <div class="valore"><span><%=act.cliente()%></span></div>
+    <div class="valore"><span style="overflow: hidden;"><%=act.cliente()%></span></div>
 
     <form id="form_act">
         <input type="hidden" name="id_act" value="<%=id_act%>">
@@ -80,6 +82,13 @@
         </div>
         
         
+        <%if(!act.getInizio_string().equals("")){%>
+            <div class="etichetta">Inizio</div>
+            <div class="valore"><span><%=act.getInizio_string()%></span></div>
+
+            <div class="etichetta">Fine</div>
+            <div class="valore"><span><%=act.getFine_string()%></span></div>
+        <%}%>
         <div class="etichetta">Completata</div>
         <div class="valore">
             <select id="completata" name="completata" style="width: 50px">
@@ -88,7 +97,7 @@
             </select>
         </div>
         <%if(utente.is_amministratore()){%>
-            <button class="pulsante float-right" onclick="modifica_act()" type="button">Salva</button>
+            <button class="pulsante float-right" onclick="modifica_act()" type="button"><img src="<%=Utility.url%>/images/save.png">Salva</button>
         <%}%>
         <div class="clear"></div>
     </form>

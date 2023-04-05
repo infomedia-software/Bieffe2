@@ -356,6 +356,7 @@
           
             
             <div style="width: 25%;background-color: #eee;float: right;min-height: 100%;">                
+                <div id="scheda_act"></div>    
                 <%if(utente.is_amministratore()){%>
                     <div class='box'>
                         <h2>Da Programmare</h2>
@@ -373,9 +374,8 @@
                                 <br>
                                 <%=act.cliente()%>
                                 <br>
-                                <%=act.getAct_ph().getNome()%>
-                                <br>
-                                <div><%=act.getDescrizione()%></div>
+                                <%=act.getAct_ph().getNome()%> - <%=act.getDescrizione()%>
+                                <div class="clear"></div>
                                 <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
                                 <div class="clear"></div>
                             </div>                                    
@@ -384,7 +384,7 @@
                         <%}%>
                     </div>                        
                 <%}%>                      
-                <div id="scheda_act"></div>                                                           
+                                                                   
             </div>            
                     
             <div style="width: calc(75%);background-color: #eee;float: left;">
