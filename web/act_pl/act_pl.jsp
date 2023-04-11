@@ -222,14 +222,35 @@
             function attivita_act(){
                 var id_act_res=$("#id_act_res").val();
                 var data=$("#data").val();   
-                window.open("<%=Utility.url%>/act/act_list.jsp?id_act_res="+id_act_res+"&data="+data,'_blank');
+                window.open("<%=Utility.url%>/act/_act_list.jsp?id_act_res="+id_act_res+"&data="+data,'_blank');
             }
-         
+            function stampa_attivita_act(){
+                var id_act_res=$("#id_act_res").val();
+                var data=$("#data").val();   
+                window.open("<%=Utility.url%>/act/_act_list.jsp?stampa=si&id_act_res="+id_act_res+"&data="+data,'_blank');
+            }
 
             function aggiorna_act_pl(){
                 $("#div_act_pl").load("<%=Utility.url%>/act_pl/act_pl.jsp?data=<%=data%> #div_act_pl_inner",function(){nascondiloader();nascondipopup();});
             }
             
+            function cancella_act(id_act){                
+                if(confirm("Procedere alla cancellazione dell'act?")){
+                    mostraloader("Cancellazione in corso...");
+                    $.ajax({
+                        type: "POST",
+                        url: "<%=Utility.url%>/act/__cancella_act.jsp",
+                        data: "id_act="+id_act,
+                        dataType: "html",
+                        success: function(msg){
+                            aggiorna_act_pl();
+                        },
+                        error: function(){
+                            alert("IMPOSSIBILE EFFETTUARE L'OPERAZIONE cancella_act");
+                        }
+                    });
+                }
+            }
             
             
             function start(websocketServerLocation){
@@ -279,13 +300,13 @@
         
         <a class="pulsante risorse float-right" href='<%=Utility.url%>/act_res/act_res_list.jsp'><img src="<%=Utility.url%>/images/risorsa.png">Risorse</a>                                   
         <a class="pulsante task float-right" href='<%=Utility.url%>/act_tsk/act_tsk_list.jsp'><img src="<%=Utility.url%>/images/task.png">Task</a>                           
-        
+        <a class="pulsante print float-right" href='<%=Utility.url%>/act/_stampa_act_list.jsp?data=<%=data%>'><img src="<%=Utility.url%>/images/print.png">Stampa</a>                           
         <div style="color:white;float: right;margin-right: 10px;height: 40px;line-height: 40px;font-style: italic">
             Ciao, <%=utente.getNome()%> <%=utente.getCognome()%>
         </div>
         <div class="clear"></div>
     </div>
-        
+         
     <div class="height10"></div>
         
     <div id="div_act_pl">
@@ -338,6 +359,7 @@
                  <ul class='custom-menu' id="menu_act_res">                  
                     <li onclick="modifica_orari_act_res()" > <img src="<%=Utility.url%>/images/setting.png" class="custom-menu-icon">Configura</li>                                                    
                     <li onclick="attivita_act()" > <img src="<%=Utility.url%>/images/list.png" class="custom-menu-icon">Attività su Risorsa</li>                                                    
+                    <li onclick="stampa_attivita_act()" > <img src="<%=Utility.url%>/images/list.png" class="custom-menu-icon">Stampa Attività </li>                                                    
                  </ul>
             <%}%>
                
@@ -365,8 +387,9 @@
                         <%}else{%>                            
 
                         <%for(Act act:lista_act_da_programmare){%>                                    
-                            <div class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
-                                <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>
+                        <div title="ID: <%=act.getId()%>" class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
+                                <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>                                
+                                <button class="pulsantesmall delete float-right" value="-1" id="stato" onclick="cancella_act('<%=act.getId()%>')"><img src="<%=Utility.url%>/images/delete.png"></button>
                                 <div class="clear"></div>
                                 <b>
                                     <%=act.getCommessa().getDescrizione()%>
@@ -377,7 +400,7 @@
                                 <%=act.getAct_ph().getNome()%> - <%=act.getDescrizione()%>
                                 <div class="clear"></div>
                                 <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
-                                <div class="clear"></div>
+                                <div class="clear"></div>                                
                             </div>                                    
                         <%}%>
                             
