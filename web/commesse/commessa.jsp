@@ -149,6 +149,7 @@
 
             <%if(!u.getPrivilegi().equals("reparto")){%>
                 <div class="box">                    
+                    <button class="pulsante" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_commessa=<%=id%>')"><img src="<%=Utility.url%>/images/add.png">Nuova Attività</button>
                     <a href='<%=Utility.url%>/commesse/_sincronizza_commesse.jsp?id_commessa=<%=id%>' class="pulsante"><img src="<%=Utility.url%>/images/sincro.png">Sincronizza Commessa</a>
                     
                     <button class="pulsante float-right delete" onclick="cancella_commessa('<%=id%>')">

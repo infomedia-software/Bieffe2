@@ -29,17 +29,7 @@
         <jsp:include page="../_menu.jsp"></jsp:include>
         <div id="container">            
 
-            <h1>Commesse 
-                <%if(situazione.equals("programmata")){%>
-                    Programmate
-                <%}%>
-                <%if(situazione.equals("daprogrammare")){%>
-                    Da Programmare
-                <%}%>
-                <%if(situazione.equals("conclusa")){%>
-                    Concluse
-                <%}%>
-            </h1>
+            <h1>Commesse </h1>
 
             <div class="box">                
                 <a href='<%=Utility.url%>/commesse/_sincronizza_commesse.jsp?situazione=<%=situazione%>' class="pulsante"><img src="<%=Utility.url%>/images/sincro.png">Sincronizza</a>
@@ -50,16 +40,14 @@
 
             <div class="box">
             <%            
-                String query="commesse.stato='1' AND commesse.situazione="+Utility.isNull(situazione)+" ";
+                String query="commesse.stato='1' ";
                 String ordinamento="commesse.numero DESC";
                 String limit="0";
             %>
             <jsp:include page="_commesse.jsp">
                 <jsp:param name="query" value="<%=query%>"></jsp:param>
                 <jsp:param name="ordinamento" value="<%=ordinamento%>"></jsp:param>
-                <jsp:param name="limit" value="<%=limit%>"></jsp:param>
-                <jsp:param name="commesse.situazione" value="<%=situazione%>"></jsp:param>
-
+                <jsp:param name="limit" value="<%=limit%>"></jsp:param>                
             </jsp:include>
             </div>
         </div>

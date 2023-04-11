@@ -110,50 +110,14 @@
 
                 <a href="<%=Utility.url%>/commesse/commesse.jsp?situazione=programmata" class="pulsantehome green float-left">
                     <img src="<%=Utility.url%>/images/document.png">
-                    <div class="titolo">Commesse<br>Programmate</div>                           
-                </a>                                                        
-
-                <a href="<%=Utility.url%>/commesse/commesse.jsp?situazione=daprogrammare" class="pulsantehome red float-left">
-                    <img src="<%=Utility.url%>/images/document.png">
-                    <div class="titolo">Commesse<br>da Programmare</div>                           
-                </a>
-
-                <a href="<%=Utility.url%>/commesse/commesse.jsp?situazione=conclusa" class="pulsantehome commessa float-left">
-                    <img src="<%=Utility.url%>/images/document.png">
-                    <div class="titolo">Commesse<br>Concluse</div>                           
-                </a>                            
-
-                <!--a href="<%=Utility.url%>/planning/planning.jsp?" class="pulsantehome planning float-left">
-                    <img src="<%=Utility.url%>/images/planning.png">
-                    <div class="titolo">Planning</div>                            
-                </a-->   
+                    <div class="titolo">Commesse</div>                           
+                </a>                                                       
                     
-                  <a href="<%=Utility.url%>/act_pl/act_pl.jsp" class="pulsantehome planning float-left"  >
+
+                <a href="<%=Utility.url%>/act_pl/act_pl.jsp" class="pulsantehome planning float-left"  >
                     <img src="<%=Utility.url%>/images/planning.png">
                     <div class="titolo">Planning</div>                            
                 </a>                                                       
-
-
-                <a href='<%=Utility.url%>/attivita/lista_attivita.jsp'  class="pulsantehome listaattivita float-left ">
-                    <img src="<%=Utility.url%>/images/attivita.png">                        
-                    <div class="titolo">Attività</div>                           
-                </a>
-
-
-                <a href='<%=Utility.url%>/fasi_cat/fasi_cat.jsp'  class="pulsantehome fasi float-left ">
-                    <img src="<%=Utility.url%>/images/fasi.png">                        
-                    <div class="titolo">Fasi</div>                           
-                </a>
-
-                <a href='<%=Utility.url%>/fasi_cat/sottofasi.jsp'  class="pulsantehome fasi float-left ">
-                    <img src="<%=Utility.url%>/images/sottofasi.png">                        
-                    <div class="titolo">Sottofasi</div>                           
-                </a>
-
-                <a href='<%=Utility.url%>/risorse/risorse.jsp'  class="pulsantehome risorse float-left ">
-                    <img src="<%=Utility.url%>/images/risorsa.png">                        
-                    <div class="titolo">Risorse</div>                           
-                </a>
 
                 <a href='<%=Utility.url%>/reparti/reparti.jsp'  class="pulsantehome reparti float-left ">
                     <img src="<%=Utility.url%>/images/reparto.png">                        

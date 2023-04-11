@@ -9,7 +9,7 @@
 <%@page import="gestioneDB.GestioneRisorse"%>
 <%@page import="utility.Utility"%>
 <%
-    String id_commessa="";
+    String id_commessa=Utility.eliminaNull(request.getParameter("id_commessa"));
     String id_act_ph="";
     String descrizione="";
     double durata=1;

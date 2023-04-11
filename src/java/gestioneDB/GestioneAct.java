@@ -83,7 +83,7 @@ public class GestioneAct {
                     Act temp=new Act();
                     
                         temp.setId(rs.getString("act.id"));
-                        String commessa_stringa=rs.getString("commesse.id");
+                        String commessa_stringa=Utility.eliminaNull(rs.getString("commesse.id"));
                         Commessa commessa=new Commessa();
                         if(commessa_stringa.equals("")){
                             commessa.setId("");
