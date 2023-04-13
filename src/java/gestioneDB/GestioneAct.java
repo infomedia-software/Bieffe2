@@ -40,6 +40,23 @@ public class GestioneAct {
         return toReturn;
     }
     
+    public Map<String,ArrayList<Act>> act_periodo(String inizio){
+        Map<String,ArrayList<Act>> toReturn=new HashMap<String,ArrayList<Act>>();
+        
+        ArrayList<ActRes> act_res_list=GestioneActRes.getIstanza().ricerca("");
+        for(ActRes act_res:act_res_list){
+            ArrayList<Act> temp=ricerca(" "
+            + "act.id_act_res="+Utility.isNull(act_res.getId())+" AND "
+            + "act.stato='1' AND "
+            + " ( DATE(act.inizio)>="+Utility.isNull(inizio)+" OR DATE(act.fine)>="+Utility.isNull(inizio)+" ) "
+            + " ORDER BY act.inizio ASC");
+            toReturn.put(act_res.getId(),temp); 
+        }
+        return toReturn;
+    }
+    
+    
+    
     public Map<String,ArrayList<Act>> act_data(String data){
         Map<String,ArrayList<Act>> toReturn=new HashMap<String,ArrayList<Act>>();
         

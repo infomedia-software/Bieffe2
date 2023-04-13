@@ -18,7 +18,7 @@
     
     ArrayList<ActRes> act_res_list=GestioneActRes.getIstanza().act_res_utente(utente);
     
-    Map<String,ArrayList<Act>> mappa_act=GestioneAct.getIstanza().act_data(data);
+    Map<String,ArrayList<Act>> mappa_act=GestioneAct.getIstanza().act_periodo(data);
     
 %>
 
