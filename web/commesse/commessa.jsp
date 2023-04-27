@@ -1,3 +1,5 @@
+<%@page import="beans.Act"%>
+<%@page import="gestioneDB.GestioneAct"%>
 <%@page import="gestioneDB.DBConnection_External_DB"%>
 <%@page import="gestioneDB.GestioneSincronizzazione"%>
 <%@page import="beans.Utente"%>
@@ -277,11 +279,42 @@
             <div id="div_attivita">
                 <div id="div_attivita_inner">
                     
+                    
+                    
+                    <div class="box">
+                        <h2>Attività in Planning</h2>
+                        
+                        <%
+                            ArrayList<Act> lista_act=GestioneAct.getIstanza().ricerca(" act.id_commessa="+Utility.isNull(id)+" AND act.stato='1' ");
+                        %>
+                        <table class="tabella">
+                            <tr>
+                                <th>Descrizione</th>
+                                <th>Durata</th>
+                                <th>Inizio</th>
+                                <th>Fine</th>
+                                <th>Note</th>                                
+                            </tr>
+                            <%for(Act act:lista_act){%>
+                                <tr>
+                                    <td><%=act.getDescrizione()%></td>
+                                    <td><%=act.getDurata_string()%></td>
+                                    <td><%=act.getInizio_string()%></td>
+                                    <td><%=act.getInizio_string()%></td>
+                                    <td><%=act.getNote()%></td>                                    
+                                </tr>
+                            <%}%>
+                        </table>
+                        
+                    </div>
+                    
+                    
+                    
                     <div class="box">
                     <%ArrayList<Attivita> in_attesa=GestionePlanning.getIstanza().ricercaAttivita(" "
                             + "attivita.commessa="+Utility.isNull(id)+" AND "                            
                             + "attivita.stato='1' ORDER BY attivita.seq_input ASC");%>
-                    <h2>Attività</h2>
+                    <h2>Attività Importate</h2>
                     <table class="tabella">
                         <tr>                                    
                             <th>Descrizione</th>

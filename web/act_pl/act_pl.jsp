@@ -381,28 +381,44 @@
                 <div id="scheda_act"></div>    
                 <%if(utente.is_amministratore()){%>
                     <div class='box'>
-                        <h2>Da Programmare</h2>
+                        <h2 style="margin-left: 0px">Da Programmare</h2>
                         <%if(lista_act_da_programmare.size()==0){%>
                             <div class="messaggio">Nessuna attività da programmare</div>
-                        <%}else{%>                            
+                        <%}else{%>    
+                        
+                            <script type="text/javascript">
+                                $(document).ready(function(){
+                                    $("#ricerca_act_da_programmare").on("keyup", function() {
+                                          var value = $(this).val().toLowerCase();                                          
+                                          $("#div_act_da_programmare .act_da_programmare").filter(function() {
+                                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                                          });
+                                    });
+                                  });
 
-                        <%for(Act act:lista_act_da_programmare){%>                                    
-                        <div title="ID: <%=act.getId()%>" class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
-                                <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>                                
-                                <button class="pulsantesmall delete float-right" value="-1" id="stato" onclick="cancella_act('<%=act.getId()%>')"><img src="<%=Utility.url%>/images/delete.png"></button>
-                                <div class="clear"></div>
-                                <b>
-                                    <%=act.getCommessa().getDescrizione()%>
-                                </b>
-                                <br>
-                                <%=act.cliente()%>
-                                <br>
-                                <%=act.getAct_ph().getNome()%> - <%=act.getDescrizione()%>
-                                <div class="clear"></div>
-                                <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
-                                <div class="clear"></div>                                
-                            </div>                                    
-                        <%}%>
+                            </script>
+                        
+                            <div class="valore">
+                                <input type="text" id="ricerca_act_da_programmare" placeholder="Ricerca attività da programmare" >
+                            </div>
+                            <div class="clear"></div>
+                            <div id="div_act_da_programmare">
+                                <%for(Act act:lista_act_da_programmare){%>                                    
+                                    <div title="ID: <%=act.getId()%>" class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
+                                        <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>                                
+                                        <button class="pulsantesmall delete float-right" value="-1" id="stato" onclick="cancella_act('<%=act.getId()%>')"><img src="<%=Utility.url%>/images/delete.png"></button>
+                                        <div class="clear"></div>                                        
+                                        <%=act.getCommessa().getDescrizione()%>                                        
+                                        <br>
+                                        <%=act.cliente()%>
+                                        <br>
+                                        <%=act.getAct_ph().getNome()%> - <%=act.getDescrizione()%>
+                                        <div class="clear"></div>
+                                        <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
+                                        <div class="clear"></div>                                
+                                    </div>                                    
+                                <%}%>
+                            </div>
                             
                         <%}%>
                     </div>                        

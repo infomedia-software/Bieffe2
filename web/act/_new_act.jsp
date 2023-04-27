@@ -34,7 +34,13 @@
 
 <script type="text/javascript">
     function new_act(){
+        var durata=parseFloat($("#durata").val());
+        if(durata<=0 || $("#durata").is(":invalid")===true){
+            alert("Verifica di aver inserito una durata valida");
+            return;
+        }
         if(confirm("Procedere all'inserimento dell'attività?")){
+            
             $.ajax({
                 type: "POST",
                 url: "<%=Utility.url%>/act/__new_act.jsp",
@@ -62,12 +68,12 @@
         
         <div class="etichetta">Descrizione</div>
         <div class="valore">
-            <textarea id="descrizione" name="descrizione"><%=descrizione%></textarea>
+            <textarea id="descrizione" name="descrizione" ><%=descrizione%></textarea>
         </div>
 
         <div class="etichetta">Durata</div>
         <div class="valore">
-            <input type="number" id="durata" name="durata" value="<%=Utility.elimina_zero(durata)%>">
+            <input type="number" id="durata" name="durata" value="<%=Utility.elimina_zero(durata)%>" min="0.5" step='0.5'  required="">
         </div>
         
         <div class="etichetta">Fase</div>

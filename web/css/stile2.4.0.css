@@ -7,6 +7,8 @@
     color:black;
 }
 
+
+
 a{
     text-decoration: none;
 }
@@ -1684,4 +1686,10 @@ textarea{
     -moz-border-radius: 3px;
     border-radius: 3px;
     pointer-events: none;
+}
+
+
+:invalid {
+    background-color: #cc0000 !important;
+    color:white;
 }
