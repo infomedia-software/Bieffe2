@@ -29,7 +29,8 @@
         $('#form_act input:not(.changed), textarea:not(.changed)').prop('disabled', true);                 
         var data_temp=$("#form_act").serialize().replace('%5B', '[').replace('%5D', ']');        
         var con_errore=$('#form_act .errore').length;
-        if(con_errore===0){       
+        if(con_errore===0){
+            mostraloader("Aggiornamento in corso");
             data_temp=data_temp+"&id_act=<%=id_act%>";        
             $.ajax({
                 type: "POST",

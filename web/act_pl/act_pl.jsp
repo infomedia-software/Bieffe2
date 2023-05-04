@@ -55,6 +55,22 @@
         <title>Planning | <%=Utility.nomeSoftware%></title>
         <jsp:include page="../_importazioni.jsp"></jsp:include>
         <script type="text/javascript">
+            
+               
+            $(function(){
+                ricerca_act_pl();
+            });
+
+            function ricerca_act_pl(){
+                $("#ricerca_act_da_programmare").on("keyup", function() {
+                      var value = $(this).val().toLowerCase();                                          
+                      $("#div_act_da_programmare .act_da_programmare").filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                      });
+                });
+            }
+     
+            
             function cambia_giorno(){
                 var giorno=$("#data").val();
                 function_cambia_giorno(giorno);
@@ -174,7 +190,8 @@
             }
       
             function mostra_act(id_act){
-                $("#scheda_act").load("<%=Utility.url%>/act/_act.jsp?id_act="+id_act);
+                mostraloader("Operazione in corso...")
+                $("#scheda_act").load("<%=Utility.url%>/act/_act.jsp?id_act="+id_act,function(){nascondiloader();});
             }
             
             function attiva_disattiva_act_cel(operazione){
@@ -230,10 +247,7 @@
                 window.open("<%=Utility.url%>/act/_act_list.jsp?stampa=si&id_act_res="+id_act_res+"&data="+data,'_blank');
             }
 
-            function aggiorna_act_pl(){
-                $("#div_act_pl").load("<%=Utility.url%>/act_pl/act_pl.jsp?data=<%=data%> #div_act_pl_inner",function(){nascondiloader();nascondipopup();});
-            }
-            
+          
             function cancella_act(id_act){                
                 if(confirm("Procedere alla cancellazione dell'act?")){
                     mostraloader("Cancellazione in corso...");
@@ -275,6 +289,15 @@
             $(function(){
                 start("<%=Utility.socket_url%>");   
             });
+
+              function aggiorna_act_pl(){
+                $("#div_act_pl").load("<%=Utility.url%>/act_pl/act_pl.jsp?data=<%=data%> #div_act_pl_inner",function(){
+                    nascondiloader();
+                    nascondipopup();
+                    ricerca_act_pl();
+                });
+            }
+            
 
             
             
@@ -385,18 +408,6 @@
                         <%if(lista_act_da_programmare.size()==0){%>
                             <div class="messaggio">Nessuna attività da programmare</div>
                         <%}else{%>    
-                        
-                            <script type="text/javascript">
-                                $(document).ready(function(){
-                                    $("#ricerca_act_da_programmare").on("keyup", function() {
-                                          var value = $(this).val().toLowerCase();                                          
-                                          $("#div_act_da_programmare .act_da_programmare").filter(function() {
-                                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                                          });
-                                    });
-                                  });
-
-                            </script>
                         
                             <div class="valore">
                                 <input type="text" id="ricerca_act_da_programmare" placeholder="Ricerca attività da programmare" >
