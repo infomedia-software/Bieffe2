@@ -318,12 +318,11 @@
     <div style="background-color: #2C3B50;width: calc(100% - 10px);padding: 5px;">                    
         <a href="<%=Utility.url%>"><img src="<%=Utility.url%>/images/infomedia cerchio.png" style="height: 35px;float: left;margin-right: 10px"></a>
         
-        <input type="date" id="data" class="date"  value="<%=data%>" onchange="cambia_giorno()">
-        
+        <input type="date" id="data" class="date"  value="<%=data%>" onchange="cambia_giorno()">        
         
         <a class="pulsante risorse float-right" href='<%=Utility.url%>/act_res/act_res_list.jsp'><img src="<%=Utility.url%>/images/risorsa.png">Risorse</a>                                   
         <a class="pulsante task float-right" href='<%=Utility.url%>/act_tsk/act_tsk_list.jsp'><img src="<%=Utility.url%>/images/task.png">Task</a>                           
-        <a class="pulsante print float-right" href='<%=Utility.url%>/act/_stampa_act_list.jsp?data=<%=data%>'><img src="<%=Utility.url%>/images/print.png">Stampa</a>                           
+        <a class="pulsante print float-right" href='<%=Utility.url%>/act/_act_list.jsp?data=<%=data%>&stampa=si'><img src="<%=Utility.url%>/images/print.png">Stampa</a>                           
         <div style="color:white;float: right;margin-right: 10px;height: 40px;line-height: 40px;font-style: italic">
             Ciao, <%=utente.getNome()%> <%=utente.getCognome()%>
         </div>
