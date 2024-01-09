@@ -8,6 +8,12 @@
     String accesso=Utility.eliminaNull(request.getParameter("accesso"));
     if(accesso.equals(""))
         accesso="ufficio";
+    
+    if(request.getScheme().equals("http") && !Utility.url.contains("localhost")){  
+        String redirect = Utility.url; 
+        response.sendRedirect(redirect);  
+    }
+
 %>
 <!DOCTYPE html>
 <html>

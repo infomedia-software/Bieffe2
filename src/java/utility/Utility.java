@@ -30,12 +30,12 @@ public class Utility {
     private static Utility istanza;
         
     
-    //public static String url="http://app.infomediatek.it/Bieffe2";
-    //public static String socket_url="ws://app.infomediatek.it/Bieffe2/websocketendpoint";           
+    public static String url="https://app.infomediatek.it/Bieffe2";
+    public static String socket_url="wss://app.infomediatek.it/Bieffe2/websocketendpoint";           
     
     
-    public static String url="http://localhost:8084/Bieffe2";           
-    public static String socket_url="ws://localhost:8084/Bieffe2/websocketendpoint";       
+    //public static String url="http://localhost:8084/Bieffe2";           
+    //public static String socket_url="ws://localhost:8084/Bieffe2/websocketendpoint";       
     
     public static String nomeSoftware="Infogest Infomedia ";
     
