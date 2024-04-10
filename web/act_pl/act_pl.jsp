@@ -29,8 +29,8 @@
     
     Map<String,Integer> act_res_data_inizio_fine=GestioneActRes.getIstanza().act_res_data_inizio_fine(data);
     int inizio=act_res_data_inizio_fine.get("inizio");
-    int fine=act_res_data_inizio_fine.get("fine");
-    
+    int fine=act_res_data_inizio_fine.get("fine")+1;
+    System.out.println("fine->"+fine);
     
     ArrayList<ActRes> act_res_list=GestioneActRes.getIstanza().act_res_utente(utente);
 
@@ -38,9 +38,9 @@
     Map<String,ActRes> mappa_ac_res=GestioneActRes.getIstanza().act_res_data(data);
     
     
-    String id_act_da_programmare="";
+    String id_act_da_programmare=Utility.eliminaNull(request.getParameter("id_act_da_programmare"));
     ArrayList<Act> lista_act_da_programmare=GestioneAct.getIstanza().ricerca(" act.inizio IS NULL AND act.fine IS NULL AND act.stato='1' ORDER BY act.data_modifica DESC");
-    if(lista_act_da_programmare.size()>0){
+    if(lista_act_da_programmare.size()>0 && id_act_da_programmare.equals("")){
         id_act_da_programmare=lista_act_da_programmare.get(0).getId();
     }
     
@@ -60,7 +60,8 @@
                 function_cambia_giorno(giorno);
             }            
             function function_cambia_giorno(giorno){
-                location.href='<%=Utility.url%>/act_pl/act_pl.jsp?data='+giorno;   
+                var id_act_da_programmare=$("#id_act_da_programmare").val();
+                location.href='<%=Utility.url%>/act_pl/act_pl.jsp?data='+giorno+"&id_act_da_programmare="+id_act_da_programmare;   
             }
             
             $(document).bind("contextmenu", function (event) {

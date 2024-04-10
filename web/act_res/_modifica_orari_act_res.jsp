@@ -40,6 +40,23 @@
         }
     }
     
+    function orari2(inizio,fine,inizio2,fine2){        
+        for(var i=0;i<=47;i++){
+            if(i>=inizio && i<=fine){
+                $("#c"+i).prop('checked',true);
+            }else{
+                $("#c"+i).prop('checked',false);
+            }
+        }
+        for(var i=inizio2;i<=47;i++){
+            if(i>=inizio2 && i<=fine2){
+                $("#c"+i).prop('checked',true);
+            }else{
+                $("#c"+i).prop('checked',false);
+            }
+        }
+    }
+    
     function disabilita_act_res(){
         if(confirm("Procedere alla disabilitazione della risorsa?")){
             $(".c_act_res").prop( "checked", false );
@@ -62,11 +79,12 @@
         
         <div class="etichetta">Orari Standard</div>
         <div class="valore">
-            <button class="pulsante_tabella" type="button" onclick="orari('16','25')">08:00/13:00</button>            
-            <button class="pulsante_tabella" type="button" onclick="orari('16','23')">08:00/12:00</button>            
-            <button class="pulsante_tabella" type="button" onclick="orari('17','24')">08:30/12:30</button>            
-            <button class="pulsante_tabella" type="button" onclick="orari('24','34')">13:30/17:30</button>            
-            <button class="pulsante_tabella" type="button" onclick="orari('26','35')">13:00/18:00</button>            
+            <button class="pulsante_tabella" type="button" onclick="orari('10','25')">05:00/13:00</button>            
+            <button class="pulsante_tabella" type="button" onclick="orari('26','41')">13:00/21:00</button>   
+            
+            <button class="pulsante_tabella" type="button" onclick="orari('16','31')">08:00/16:00</button>            
+            <button class="pulsante_tabella" type="button" onclick="orari2('16','23','28','35');">08:00/12:00 - 14:00/18:00</button>            
+            <!--button class="pulsante_tabella" type="button" onclick="orari('26','35')">13:00/18:00</button-->            
             <button class="pulsante_tabella red" type="button" onclick="disabilita_act_res()">Disabilita </button>            
         </div>
                         
