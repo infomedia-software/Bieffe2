@@ -27,9 +27,9 @@ public class ConnectionPool {
   private void loadParameters() {
       
     dbDriver = "com.mysql.jdbc.Driver";                         // Driver per database mysql                
-    dbUrl = "jdbc:mysql://80.211.230.49:3306/bieffe2";
-    dbLogin = "infomedia";    
-    dbPassword = "Infomedia.2021!";
+    dbUrl = "jdbc:mysql://195.231.15.77:3306/bieffe2";
+    dbLogin = "infomedia_new";    
+    dbPassword = "Rob.Dav.1986";
     
    
   }
