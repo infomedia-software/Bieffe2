@@ -31,17 +31,14 @@
         <a href='<%=Utility.url%>'><div class="icon colore">H</div>Home</a>
         
         <%if(utente.getPrivilegi().equals("amministratore") || utente.getPrivilegi().equals("ufficio")){%>        
-            <a href='<%=Utility.url%>/commesse/commesse.jsp?situazione=programmata' ><div class="icon green">C</div>Programmate</a>            
-            <a href='<%=Utility.url%>/commesse/commesse.jsp?situazione=daprogrammare'  ><div class="icon yellow">C</div>Da Programmare</a>            
+            <a href='<%=Utility.url%>/commesse/commesse.jsp?situazione=programmata' ><div class="icon green">C</div>Commesse</a>                        
             <a href='<%=Utility.url%>/act_pl/act_pl.jsp' ><div class="icon planning">P</div>Planning</a>                           
-            <!--a href='<%=Utility.url%>/planning/planning.jsp?data=<%=Utility.dataOdiernaFormatoDB()%>' ><div class="icon planning">P</div>Planning</a-->
-            <a href='<%=Utility.url%>/attivita/lista_attivita.jsp'><div class="icon listaattivita">A</div>Attività</a>                                       
+            <!--a href='<%=Utility.url%>/planning/planning.jsp?data=<%=Utility.dataOdiernaFormatoDB()%>' ><div class="icon planning">P</div>Planning</a-->            
             <a href='#' onclick="$('#div_anagrafiche').slideToggle();" ><div class="icon colore">A</div>Anagrafiche</a>            
             <div class="sottomenu" id="div_anagrafiche" >
                 <a href='<%=Utility.url%>/soggetti/soggetti.jsp?tipologia=c' >Clienti</a>              
             </div>
-                
-            <a href='#' onclick="$('#div_monitor').slideToggle();" ><div class="icon monitor">M</div>Monitor</a>
+                            
             <div class="sottomenu" id="div_monitor">
                 <%for(Reparto r:GestioneReparti.getIstanza().ricerca("")){%>
                     <a href="<%=Utility.url%>/monitor/monitor.jsp?reparto=<%=r.getId()%>"><%=r.getNome()%></a>

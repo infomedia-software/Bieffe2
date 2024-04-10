@@ -1,3 +1,5 @@
+<%@page import="beans.Act"%>
+<%@page import="gestioneDB.GestioneAct"%>
 <%@page import="gestioneDB.DBConnection_External_DB"%>
 <%@page import="gestioneDB.GestioneSincronizzazione"%>
 <%@page import="beans.Utente"%>
@@ -26,14 +28,7 @@
     // possono essere create quando crei una nuova attività a mano ma chiudi la scheda con il popup prima di salvare
     Utility.getIstanza().query("UPDATE attivita SET stato='-1' WHERE commessa="+Utility.isNull(commessa.getId())+" AND ore=0 AND minuti=0 AND id_ordine_fornitore='' AND stato='1'");
     
-    ArrayList<Attivita> programmate_da_programmare=GestionePlanning.getIstanza().ricercaAttivita(" "
-            + "attivita.commessa="+Utility.isNull(id)+" AND "
-            + "attivita.situazione!="+Utility.isNull("")+" AND "
-            + "attivita.stato='1' ORDER BY attivita.seq ASC");
-  
     
-    String data_conclusione=Utility.getIstanza().getValoreByCampo("attivita", "fine", " commessa="+Utility.isNull(id)+" AND situazione="+Utility.isNull(Attivita.INPROGRAMMAZIONE)+" AND stato='1' ORDER BY fine DESC LIMIT 0,1");
-  
     ArrayList<Soggetto> clienti=GestioneSoggetti.getIstanza().clienti();
 
 %>
@@ -73,25 +68,21 @@
             
             
             function cancella_commessa(id_commessa){
-                <%if(programmate_da_programmare.size()>0){%>
-                    alert("Impossibile cancellare la commessa poichè sono presenti delle attività in attesa e/o programmate.");
-                <%}else{%>
-                    if(confirm("Procedere alla cancellazione della commessa?")){
-                        mostraloader("Operazione in corso...");
-                        $.ajax({
-                            type: "POST",
-                            url: "<%=Utility.url%>/commesse/__cancella_commessa.jsp",
-                            data: "id_commessa="+id_commessa,
-                            dataType: "html",
-                            success: function(msg){
-                                location.href='<%=Utility.url%>/commesse/commesse.jsp';
-                            },
-                            error: function(){
-                                alert("IMPOSSIBILE EFFETTUARE L'OPERAZIONE cancella_commessa");
-                            }
-                        });
-                    }
-                <%}%>
+                if(confirm("Procedere alla cancellazione della commessa?")){
+                    mostraloader("Operazione in corso...");
+                    $.ajax({
+                        type: "POST",
+                        url: "<%=Utility.url%>/commesse/__cancella_commessa.jsp",
+                        data: "id_commessa="+id_commessa,
+                        dataType: "html",
+                        success: function(msg){
+                            location.href='<%=Utility.url%>/commesse/commesse.jsp';
+                        },
+                        error: function(){
+                            alert("IMPOSSIBILE EFFETTUARE L'OPERAZIONE cancella_commessa");
+                        }
+                    });
+                }                
             }
             
             function modifica_attivita(id_attivita,inField){                       
@@ -159,12 +150,8 @@
             
 
             <%if(!u.getPrivilegi().equals("reparto")){%>
-                <div class="box">
-                    <button class="pulsante " onclick="mostrapopup('<%=Utility.url%>/attivita/_da_programmare.jsp?id_commessa=<%=id%>','Nuova Attività')">
-                        <img src="<%=Utility.url%>/images/add.png">
-                        Nuova Attività
-                    </button>            
-                    
+                <div class="box">                    
+                    <button class="pulsante" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_commessa=<%=id%>')"><img src="<%=Utility.url%>/images/add.png">Nuova Attività</button>
                     <a href='<%=Utility.url%>/commesse/_sincronizza_commesse.jsp?id_commessa=<%=id%>' class="pulsante"><img src="<%=Utility.url%>/images/sincro.png">Sincronizza Commessa</a>
                     
                     <button class="pulsante float-right delete" onclick="cancella_commessa('<%=id%>')">
@@ -178,16 +165,9 @@
           
           
             <div class="height10"></div>
-            
-            <%if(!u.is_reparto()){%>
-                <div class='tabs'>                
-                    <div class='tab' id="tabdettagli" onclick="mostratab('dettagli');">Dettagli</div>                                
-                    <div class='tab tab2' id="tabattivita" onclick="mostratab('attivita');">Attività</div>                                                    
-                </div>
-            <%}%>
-            
+
             <!-- DETTAGLI -->
-            <div class="scheda <%if(u.getPrivilegi().equals("reparto")){%> pointer-events-none <%}else{%> displaynone <%}%>" id='schedadettagli' >
+            <div class="scheda" id='schedadettagli' >
                 
                 <div class="width50 float-left">
                 
@@ -293,92 +273,46 @@
                     
          
                 
-            <div class="scheda <% if(!u.getPrivilegi().equals("amministratore")){%>pointer-events-none<%}%> <%if(u.getPrivilegi().equals("reparto")){%> displaynone <%}else{%> <%}%>" id="schedaattivita">
+            <div <% if(!u.getPrivilegi().equals("amministratore")){%>pointer-events-none<%}%> <%if(u.getPrivilegi().equals("reparto")){%> displaynone <%}else{%> <%}%>" id="schedaattivita">
 
               
             <div id="div_attivita">
                 <div id="div_attivita_inner">
                     
-                    <div class="box">
-                    <h2>Attività Programmate / Da Programmare</h2>                                       
-                    <%if(programmate_da_programmare.size()>0){%>
                     
-                    <table class="tabella">
-                        <tr>
-                            <th style="width: 75px"></th>
-                            <th>Descrizione</th>                            
-                            <th style="width: 120px">Inizio / Fine</th>
-                            <th>Fase</th>
-                            
-                            <th>Sequenza</th>                            
-                            <th>Durata</th>
-                            <th>Scostamento</th>
-                            <th>Risorsa</th>
-                            <th>Note</th>                            
-                            <th style="width: 135px">Situazione</th>
-                            <th style="width: 200px"></th>
-                            
-                        </tr>
-                        <%for(Attivita a:programmate_da_programmare){%>
+                    
+                    <div class="box">
+                        <h2>Attività in Planning</h2>
+                        
+                        <%
+                            ArrayList<Act> lista_act=GestioneAct.getIstanza().ricerca(" act.id_commessa="+Utility.isNull(id)+" AND act.stato='1' ");
+                        %>
+                        <table class="tabella">
                             <tr>
-                                <td>
-                                    <a href="<%=Utility.url%>/attivita/_attivita.jsp?id=<%=a.getId()%>" class="pulsantesmall" >
-                                        <img src="<%=Utility.url%>/images/edit.png">
-                                    </a>
-                                    <%if(!a.getCompletata().equals("")){%>
-                                        <div class="tagsmall green" style="margin: 3px;"><img src="<%=Utility.url%>/images/v2.png"></div>
-                                    <%}%>
-                                </td>                               
-                                <td>
-                                    <%=a.getDescrizione()%>
-                                    <%if(!a.getNote().equals("null")){out.print(a.getNote());}%>
-                                </td>
-                                <td>
-                                    <%=Utility.convertiDatetimeFormatoIT(a.getInizio())%>
-                                    <br>
-                                    <%=Utility.convertiDatetimeFormatoIT(a.getFine())%>
-                                </td>                            
-                                <td><%=a.getFase_input().getCodice()%> <%=a.getFase_input().getNome()%></td>
-                             
-                                <td>
-                                    <%if(a.getSeq()>0){%>
-                                        <div class="tag">
-                                            <%=Utility.elimina_zero(a.getSeq())%>
-                                        </div>
-                                    <%}%>
-                                </td>                                
-                                <td><%=Utility.formatta_durata(a.getDurata())%> h</td>
-                                <td><%if(a.getScostamento()!=0){out.print("<div class='tagsmall'>"+Utility.formatta_durata(a.getScostamento())+" h</div>");}%></td>                                
-                                <td><%=a.getRisorsa().stampa()%></td>                                
-                                <td>
-                                    <%=Utility.standardizzaStringaPerTextArea(a.getNote())%>
-                                </td>                                                               
-                                <td>                                    
-                                   <% if(a.getId_act().equals("")){%>
-                                        <button class="pulsante_tabella" onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_attivita=<%=a.getId()%>')"><img src="<%=Utility.url%>/images/setting.png">Programma</button>
-                                    <%}else{%>
-                                        <div class="tag in_programmazione">In programmazione</div>
-                                    <%}%>
-                                </td>
-                                <td>
-                                                                                      
-                                </td>                                
+                                <th>Descrizione</th>
+                                <th>Durata</th>
+                                <th>Inizio</th>
+                                <th>Fine</th>
+                                <th>Note</th>                                
                             </tr>
-                        <%}%>
+                            <%for(Act act:lista_act){%>
+                                <tr>
+                                    <td><%=act.getDescrizione()%></td>
+                                    <td><%=act.getDurata_string()%></td>
+                                    <td><%=act.getInizio_string()%></td>
+                                    <td><%=act.getInizio_string()%></td>
+                                    <td><%=act.getNote()%></td>                                    
+                                </tr>
+                            <%}%>
                         </table>
-                    <%}else{%>
-                        <div class="messaggio">
-                            Nessuna attività Programmata / Da Programmare
-                        </div>
-                    <%}%>
+                        
                     </div>
                     
                     
-                   
+                    
                     <div class="box">
                     <%ArrayList<Attivita> in_attesa=GestionePlanning.getIstanza().ricercaAttivita(" "
-                            + "attivita.commessa="+Utility.isNull(id)+" AND "
-                            + "attivita.situazione="+Utility.isNull("")+" AND "
+                            + "attivita.commessa="+Utility.isNull(id)+" AND "                            
                             + "attivita.stato='1' ORDER BY attivita.seq_input ASC");%>
                     <h2>Attività Importate</h2>
                     <table class="tabella">
@@ -394,20 +328,23 @@
                                     <%=a.getDescrizione()%>                                                                        
                                 </td>                                 
                                 <td>                                                                       
-                                    <%=a.getFase_input().getFase().getNome()%> | 
-                                    <br>                                    
-                                    <%=a.getFase_input().getCodice()%> - <%=a.getFase_input().getNome()%>                                    
+                                    <%=a.getFase_input().getFase().getNome()%> | <%=a.getFase_input().getCodice()%> - <%=a.getFase_input().getNome()%>                                    
                                 </td>                                                                
                                 <td>
                                     <div class="tagsmall"><%=Utility.formatta_durata(a.getDurata())%> h</div>
                                 </td>                                                                
                                 <td>
-                                    <button class="pulsante_tabella float-left"  onclick="mostrapopup('<%=Utility.url%>/attivita/_da_programmare.jsp?id_attivita=<%=a.getId()%>&fase=<%=a.getFase_input().getFase().getId()%>&sottofase=<%=a.getFase_input().getId()%>','Attivita <%=a.getId()%>')">
-                                        <img src="<%=Utility.url%>/images/setting.png"> Configura
-                                    </button>
-                                    <button class="pulsante_tabella delete float-left" onclick="cancella_attivita('<%=a.getId()%>')">
-                                        <img src="<%=Utility.url%>/images/delete.png"> Cancella
-                                    </button>
+                                    <%if(a.getId_act().equals("")){%>
+                                        <button class="pulsante_tabella float-left"  onclick="mostrapopup('<%=Utility.url%>/act/_new_act.jsp?id_attivita=<%=a.getId()%>&fase=<%=a.getFase_input().getFase().getId()%>&sottofase=<%=a.getFase_input().getId()%>','Attivita <%=a.getId()%>')">
+                                            <img src="<%=Utility.url%>/images/setting.png"> Configura
+                                        </button>
+                                    
+                                        <button class="pulsante_tabella delete float-left" onclick="cancella_attivita('<%=a.getId()%>')">
+                                            <img src="<%=Utility.url%>/images/delete.png"> Cancella
+                                        </button>
+                                    <%}else{%>
+                                        <button class="pulsante_tabella" onclick="mostrapopup('<%=Utility.url%>/act/_act.jsp?id_act=<%=a.getId_act()%>')">Dettagli</button>
+                                    <%}%>
                                 </td>
                             </tr>
                         <%}%>

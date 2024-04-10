@@ -1,3 +1,5 @@
+<%@page import="beans.ActPh"%>
+<%@page import="gestioneDB.GestioneActPh"%>
 <%@page import="gestioneDB.GestioneActRes"%>
 <%@page import="beans.ActRes"%>
 <%@page import="beans.Attivita"%>
@@ -7,8 +9,8 @@
 <%@page import="gestioneDB.GestioneRisorse"%>
 <%@page import="utility.Utility"%>
 <%
-    String id_commessa="";
-    String id_fase="";
+    String id_commessa=Utility.eliminaNull(request.getParameter("id_commessa"));
+    String id_act_ph="";
     String descrizione="";
     double durata=1;
     String note="";
@@ -20,17 +22,25 @@
         descrizione=attivita.getDescrizione();
         durata=attivita.getDurata();
         note=attivita.getNote();
-        id_fase="";
+        id_act_ph=attivita.getFase_input().getId();
     }
     
     
     ArrayList<ActRes> list_act_res=GestioneActRes.getIstanza().ricerca("");
+    
+    ArrayList<ActPh> fasi=GestioneActPh.getIstanza().ricerca("");
 
 %>
 
 <script type="text/javascript">
     function new_act(){
+        var durata=parseFloat($("#durata").val());
+        if(durata<=0 || $("#durata").is(":invalid")===true){
+            alert("Verifica di aver inserito una durata valida");
+            return;
+        }
         if(confirm("Procedere all'inserimento dell'attività?")){
+            
             $.ajax({
                 type: "POST",
                 url: "<%=Utility.url%>/act/__new_act.jsp",
@@ -54,16 +64,26 @@
 
         <input type="hidden" name="id_attivita" value="<%=id_attivita%>">
         <input type="hidden" name="id_commessa" value="<%=id_commessa%>">
-        <input type="hidden" name="id_fase" value="<%=id_fase%>">
+        
         
         <div class="etichetta">Descrizione</div>
         <div class="valore">
-            <textarea id="descrizione" name="descrizione"><%=descrizione%></textarea>
+            <textarea id="descrizione" name="descrizione" ><%=descrizione%></textarea>
         </div>
 
         <div class="etichetta">Durata</div>
         <div class="valore">
-            <input type="number" id="durata" name="durata" value="<%=Utility.elimina_zero(durata)%>">
+            <input type="number" id="durata" name="durata" value="<%=Utility.elimina_zero(durata)%>" min="0.5" step='0.5'  required="">
+        </div>
+        
+        <div class="etichetta">Fase</div>
+        <div class="valore">
+            <select id="id_act_ph" name="id_act_ph">
+                <option value=""></option>
+                <%for(ActPh fase:fasi){%>
+                    <option value="<%=fase.getId()%>"><%=fase.getNome()%></option>
+                <%}%>
+            </select>
         </div>
         
         <div class="etichetta">Risorsa</div>

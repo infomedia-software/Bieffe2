@@ -55,6 +55,22 @@
         <title>Planning | <%=Utility.nomeSoftware%></title>
         <jsp:include page="../_importazioni.jsp"></jsp:include>
         <script type="text/javascript">
+            
+               
+            $(function(){
+                ricerca_act_pl();
+            });
+
+            function ricerca_act_pl(){
+                $("#ricerca_act_da_programmare").on("keyup", function() {
+                      var value = $(this).val().toLowerCase();                                          
+                      $("#div_act_da_programmare .act_da_programmare").filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                      });
+                });
+            }
+     
+            
             function cambia_giorno(){
                 var giorno=$("#data").val();
                 function_cambia_giorno(giorno);
@@ -175,7 +191,8 @@
             }
       
             function mostra_act(id_act){
-                $("#scheda_act").load("<%=Utility.url%>/act/_act.jsp?id_act="+id_act);
+                mostraloader("Operazione in corso...")
+                $("#scheda_act").load("<%=Utility.url%>/act/_act.jsp?id_act="+id_act,function(){nascondiloader();});
             }
             
             function attiva_disattiva_act_cel(operazione){
@@ -223,14 +240,32 @@
             function attivita_act(){
                 var id_act_res=$("#id_act_res").val();
                 var data=$("#data").val();   
-                window.open("<%=Utility.url%>/act/act_list.jsp?id_act_res="+id_act_res+"&data="+data,'_blank');
+                window.open("<%=Utility.url%>/act/_act_list.jsp?id_act_res="+id_act_res+"&data="+data,'_blank');
             }
-         
+            function stampa_attivita_act(){
+                var id_act_res=$("#id_act_res").val();
+                var data=$("#data").val();   
+                window.open("<%=Utility.url%>/act/_act_list.jsp?stampa=si&id_act_res="+id_act_res+"&data="+data,'_blank');
+            }
 
-            function aggiorna_act_pl(){
-                $("#div_act_pl").load("<%=Utility.url%>/act_pl/act_pl.jsp?data=<%=data%> #div_act_pl_inner",function(){nascondiloader();nascondipopup();});
+          
+            function cancella_act(id_act){                
+                if(confirm("Procedere alla cancellazione dell'act?")){
+                    mostraloader("Cancellazione in corso...");
+                    $.ajax({
+                        type: "POST",
+                        url: "<%=Utility.url%>/act/__cancella_act.jsp",
+                        data: "id_act="+id_act,
+                        dataType: "html",
+                        success: function(msg){
+                            aggiorna_act_pl();
+                        },
+                        error: function(){
+                            alert("IMPOSSIBILE EFFETTUARE L'OPERAZIONE cancella_act");
+                        }
+                    });
+                }
             }
-            
             
             
             function start(websocketServerLocation){
@@ -256,6 +291,15 @@
                 start("<%=Utility.socket_url%>");   
             });
 
+              function aggiorna_act_pl(){
+                $("#div_act_pl").load("<%=Utility.url%>/act_pl/act_pl.jsp?data=<%=data%> #div_act_pl_inner",function(){
+                    nascondiloader();
+                    nascondipopup();
+                    ricerca_act_pl();
+                });
+            }
+            
+
             
             
         </script>
@@ -275,18 +319,17 @@
     <div style="background-color: #2C3B50;width: calc(100% - 10px);padding: 5px;">                    
         <a href="<%=Utility.url%>"><img src="<%=Utility.url%>/images/infomedia cerchio.png" style="height: 35px;float: left;margin-right: 10px"></a>
         
-        <input type="date" id="data" class="date"  value="<%=data%>" onchange="cambia_giorno()">
-        
+        <input type="date" id="data" class="date"  value="<%=data%>" onchange="cambia_giorno()">        
         
         <a class="pulsante risorse float-right" href='<%=Utility.url%>/act_res/act_res_list.jsp'><img src="<%=Utility.url%>/images/risorsa.png">Risorse</a>                                   
         <a class="pulsante task float-right" href='<%=Utility.url%>/act_tsk/act_tsk_list.jsp'><img src="<%=Utility.url%>/images/task.png">Task</a>                           
-        
+        <a class="pulsante print float-right" href='<%=Utility.url%>/act/_act_list.jsp?data=<%=data%>&stampa=si'><img src="<%=Utility.url%>/images/print.png">Stampa</a>                           
         <div style="color:white;float: right;margin-right: 10px;height: 40px;line-height: 40px;font-style: italic">
             Ciao, <%=utente.getNome()%> <%=utente.getCognome()%>
         </div>
         <div class="clear"></div>
     </div>
-        
+         
     <div class="height10"></div>
         
     <div id="div_act_pl">
@@ -339,6 +382,7 @@
                  <ul class='custom-menu' id="menu_act_res">                  
                     <li onclick="modifica_orari_act_res()" > <img src="<%=Utility.url%>/images/setting.png" class="custom-menu-icon">Configura</li>                                                    
                     <li onclick="attivita_act()" > <img src="<%=Utility.url%>/images/list.png" class="custom-menu-icon">Attività su Risorsa</li>                                                    
+                    <li onclick="stampa_attivita_act()" > <img src="<%=Utility.url%>/images/list.png" class="custom-menu-icon">Stampa Attività </li>                                                    
                  </ul>
             <%}%>
                
@@ -357,37 +401,40 @@
           
             
             <div style="width: 25%;background-color: #eee;float: right;min-height: 100%;">                
+                <div id="scheda_act"></div>    
                 <%if(utente.is_amministratore()){%>
                     <div class='box'>
-                        <h2>Da Programmare</h2>
+                        <h2 style="margin-left: 0px">Da Programmare</h2>
                         <%if(lista_act_da_programmare.size()==0){%>
                             <div class="messaggio">Nessuna attività da programmare</div>
-                        <%}else{%>
-                            <table class="tabella">
-                                <tr>                                    
-                                    <th colspan="2">Commessa</th>                                    
-                                    <th>Attività</th>
-                                    <th>Descrizione</th>
-                                    <th>Durata</th>                                    
-                                </tr>
-                                <%for(Act act:lista_act_da_programmare){%>
-                                <tr class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')">                                
-                                        <td>
-                                            <div class="tag float-left" style="background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>
-                                        </td>
-                                        <td>
-                                            <%=act.getCommessa().getDescrizione()%>
-                                        </td>                                        
-                                        <td><%=act.cliente()%></td>
-                                        <td><%=act.getDescrizione()%></td>
-                                        <td><%=act.getDurata_string()%> h</td>                                
-                                    </tr>
+                        <%}else{%>    
+                        
+                            <div class="valore">
+                                <input type="text" id="ricerca_act_da_programmare" placeholder="Ricerca attività da programmare" >
+                            </div>
+                            <div class="clear"></div>
+                            <div id="div_act_da_programmare">
+                                <%for(Act act:lista_act_da_programmare){%>                                    
+                                    <div title="ID: <%=act.getId()%>" class="act_da_programmare cursor-pointer <%if(act.getId().equals(id_act_da_programmare)){%> tr_selected <%}%>" id="act_da_programmare_<%=act.getId()%>" onclick="seleziona_act_da_programmare('<%=act.getId()%>')" style="padding: 5px;margin: 5px;line-height: 16px">                                                                        
+                                        <div class="tag float-left" style="margin-right: 5px;background-color: <%=act.colore()%>;"><%=act.getCommessa().getNumero()%></div>                                
+                                        <button class="pulsantesmall delete float-right" value="-1" id="stato" onclick="cancella_act('<%=act.getId()%>')"><img src="<%=Utility.url%>/images/delete.png"></button>
+                                        <div class="clear"></div>                                        
+                                        <%=act.getCommessa().getDescrizione()%>                                        
+                                        <br>
+                                        <%=act.cliente()%>
+                                        <br>
+                                        <%=act.getAct_ph().getNome()%> - <%=act.getDescrizione()%>
+                                        <div class="clear"></div>
+                                        <div class="tag color_eee float-left"><%=act.getDurata_string()%> h</div>                                                                
+                                        <div class="clear"></div>                                
+                                    </div>                                    
                                 <%}%>
-                            </table>
+                            </div>
+                            
                         <%}%>
                     </div>                        
                 <%}%>                      
-                <div id="scheda_act"></div>                                                           
+                                                                   
             </div>            
                     
             <div style="width: calc(75%);background-color: #eee;float: left;">
@@ -438,7 +485,7 @@
                             Map<Integer,Act> mappa_act_cel=new HashMap<Integer,Act>();
                             for(Act act:acts){%>
                                 <tr onclick="mostra_act('<%=act.getId()%>')" class="cursor-pointer">
-                                    <td class="act_list" id_act="<%=act.getId()%>" style="width: 100px;min-width: 100px;width: 100px">
+                                    <td class="act_list" id_act="<%=act.getId()%>" style="width: 100px;min-width: 100px;width: 100px;height: 20px">
                                         <div class="tag_tabella" style="background-color: <%=act.getCommessa().getColore()%>;color:white;">
                                             <%=act.getCommessa().getNumero()%>
                                         </div>

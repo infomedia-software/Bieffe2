@@ -4,17 +4,17 @@
     String id_commessa=Utility.eliminaNull(request.getParameter("id_commessa"));
     String descrizione=Utility.eliminaNull(request.getParameter("descrizione"));
     String durata=Utility.eliminaNull(request.getParameter("durata"));
-    String id_fase=Utility.eliminaNull(request.getParameter("id_fase"));
+    String id_act_ph=Utility.eliminaNull(request.getParameter("id_act_ph"));
     String id_act_res=Utility.eliminaNull(request.getParameter("id_act_res"));
     String note=Utility.eliminaNull(request.getParameter("note"));
       
 
-    String id_act=Utility.getIstanza().query_insert("INSERT INTO act(id_commessa,descrizione,id_act_res,id_fase,durata,note,stato) "
+    String id_act=Utility.getIstanza().query_insert("INSERT INTO act(id_commessa,descrizione,id_act_res,id_act_ph,durata,note,stato) "
         + "VALUES("
         + Utility.isNull(id_commessa)+","                    
         + Utility.isNull(descrizione)+","        
         + Utility.isNull(id_act_res)+","        
-        + Utility.isNull(id_fase)+","        
+        + Utility.isNull(id_act_ph)+","        
         + durata+","                
         + Utility.isNull(note)+","
         + "'1'"
